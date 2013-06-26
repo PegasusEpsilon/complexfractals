@@ -6,6 +6,7 @@ Render fractals based on complex number arithmetic, in C99.
 Examples:
 
 Julia set: http://pegasusepsilon.minus.com/mNei5OeRbTx55
+
 Mandelbrot set: http://pegasusepsilon.minus.com/mbjMKPspCR
 
 Requires C99 for long long. No other reason. Can easily be switched to C89/C90
