@@ -3,7 +3,7 @@
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
 **  Changelog:
-**  3.1   -- forked from mandelbrot sampler
+**  3.1 -- forked from mandelbrot sampler
 */
 
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
