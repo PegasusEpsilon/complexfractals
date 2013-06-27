@@ -41,7 +41,13 @@ I have tested renders up to approximately 130,000px square using ImageMagick,
 though.
 
 All programs spit out a list of required parameters when you run them without
-said parameters. Better documentation and examples will be added when I'm bored.
+said parameters.
+
+Edit the Makefile and fix the path to Imagemagick's convert to make PNG files
+directly with make(1).
+
+Type "make julia.png" or "make mandelbrot.png" or "make paltest.png" to see
+sample output from everything.
 
 TODO:
 * reenable in-pipe supersampling in render.c

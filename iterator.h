@@ -10,7 +10,7 @@
 #define ITERATE_H
 
 #include <math.h>   	/* log() */
-#include "complex.h"	/* struct complex */
+#include "types.h"	/* struct complex */
 
 #define ESCAPE 4*4	/* 4*4 = root twice for smooth shading */
 

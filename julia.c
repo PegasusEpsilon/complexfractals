@@ -9,7 +9,7 @@
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
 #include <stdlib.h> 	/* exit(), atoi(), atof() */
 #include <math.h>   	/* log() */
-#include "complex.h"
+#include "types.h"
 #include "iterator.h"
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
