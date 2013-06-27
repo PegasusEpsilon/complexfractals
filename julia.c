@@ -90,7 +90,7 @@ int main (int argc, char **argv) {
 
 	size = pixelsize(img, window);
 
-	printf("Rendering %dx%d to %s...\n", img.X, img.Y, argv[8]);
+	printf("Rendering %dx%d to %s...\n", img.X, img.Y, argv[10]);
 	for (i.Y = 0; i.Y < img.Y; i.Y++) {
 		printf("\rline %d/%d, %0.2f%%...", i.Y, img.Y, (float)100*i.Y/img.Y);
 		fflush(stdout);
