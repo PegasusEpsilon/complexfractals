@@ -41,24 +41,6 @@ complex pixel2vector (pixel in, complex size, region window, double theta) {
 	return out;
 }
 
-int inset (complex *c) {
-	/* quick check to see if the point is easily found in the set */
-	double tmp;
-
-  /* skip chaos line */
-  if (0 == c->I && -1 > c->R && -2 < c->R) return TRUE;
-
-  /* skip first and second period regions */
-  tmp = (c->R - .25) * (c->R - .25) + c->I * c->I;
-
-  if (
-    4 * tmp * (tmp + (c->R - .25)) / c->I / c->I < 1 ||
-    16 * ((c->R + 1) * (c->R + 1) + c->I * c->I) < 1
-  ) return TRUE;
-
-	return FALSE;
-}
-
 int main (int argc, char **argv) {
 	double angle, sample;
 	pixel img, i;
@@ -93,7 +75,7 @@ int main (int argc, char **argv) {
 		fflush(stdout);
 		for (i.X = 0; i.X < img.X; i.X++) {
 			z = pixel2vector(i, size, window, angle);
-			sample = inset(&c) ? (double)-1 : iterate(&z, &c);
+			sample = iterate(&z, &c);
 			fwrite(&sample, sizeof(double), 1, outfile);
 		}
 	}
