@@ -1,16 +1,19 @@
 CCOPTS=-Wall -pedantic -ansi -std=c99
 HEADERS=iterator.h complex.h
 
-all: sample render palette
+all: mandelbrot julia render palette
 
-render: render.c $(HEADERS)
-	cc $(CCOPTS) $^ -o render
+mandelbrot:	mandelbrot.c $(HEADERS)
+	cc $(CCOPTS) -lm mandelbrot.c -o mandelbrot
 
-sample:	sample.c $(HEADERS)
-	cc $(CCOPTS) -lm $^ -o sample
+julia:	julia.c $(HEADERS)
+	cc $(CCOPTS) -lm julia.c -o julia
 
 palette: palette.c $(HEADERS)
-	cc $(CCOPTS) -lm $^ -o palette
+	cc $(CCOPTS) -lm palette.c -o palette
+
+render: render.c $(HEADERS)
+	cc $(CCOPTS) render.c -o render
 
 clean:
-	rm palette sample render || true
+	rm mandelbrot julia palette render || true
