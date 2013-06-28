@@ -1,5 +1,5 @@
-#ifndef COMPLEX_H
-#define COMPLEX_H
+#ifndef TYPES_H
+#define TYPES_H
 
 typedef struct {
 	double R;
