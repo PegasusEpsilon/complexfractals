@@ -1,11 +1,16 @@
-/* palette.c/v4 - palette generator for complexfractals
+/* palette.c/v4.1 - palette generator for complexfractals
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified - http://pegasus.pimpninjas.org/license
+**
+**  Changelog:
+**  v4.0 - Decoupled channels
+**  v4.1 - Added verbose flag, suppressed noisy debug info
 */
 
 #include <stdio.h>	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
 #include <stdlib.h>	/* exit(), realloc(), calloc(), free() */
 #include <stdarg.h>	/* va_list, va_start(), vprintf(), va_end() */
+#include <string.h>	/* strcmp() */
 #include <math.h> 	/* cos(), fmod() */
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
@@ -49,6 +54,8 @@ void die (const char *fmt, ...) {	/* report errors */
 	exit(1);
 }
 
+int nothing (const char *f, ...) { return 0; }
+
 GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 	long long unsigned i, c, a, b;
 
@@ -91,12 +98,20 @@ CHANNEL *add_point (CHANNEL *in, double x, double y) {
 }
 
 int main (int argc, char **argv) {
-	int c, i = 0;
+	int c, i;
+	int (*debug)(const char *f, ...);
 	CHANNEL points[CHANNELS];
 	GRADIENT gradient;
 	FILE *infile, *outfile;
 
 	if (argc < 2) usage(argv[0]);
+
+	if (!strcmp("-v", argv[1])) {
+		debug = &printf;
+		argc--;
+		for (i = 1; i < argc; i++)
+			argv[i] = argv[i+1];
+	} else debug = &nothing;
 
 	/* zero all lengths */
 	gradient.length = 0;
@@ -117,40 +132,40 @@ int main (int argc, char **argv) {
 		for (i = 0; ' ' == line[i] || '\t' == line[i]; i++);	/* skip whitespace */
 		if ('#' == line[i] || '\n' == line[i]) continue;	/* skip comments */
 		if (sscanf(line+i, "LEN%llu", &gradient.length)) {
-			printf("gradient length: %llu\n", gradient.length);
+			debug("gradient length: %llu\n", gradient.length);
 			continue;
 		} else if (sscanf(line+i, "RED%lf%lf", &x, &y)) {
-			printf("read RED control point %f/%f\n", x, y);
+			debug("read RED control point %f/%f\n", x, y);
 			add_point(&points[RED], x, y);
 		} else if (sscanf(line+i, "GRN%lf%lf", &x, &y)) {
-			printf("read GRN control point %f/%f\n", x, y);
+			debug("read GRN control point %f/%f\n", x, y);
 			add_point(&points[GRN], x, y);
 		} else if (sscanf(line+i, "BLU%lf%lf", &x, &y)) {
-			printf("read BLU control point %f/%f\n", x, y);
+			debug("read BLU control point %f/%f\n", x, y);
 			add_point(&points[BLU], x, y);
 		} else if (sscanf(line+i, "RGB%lf%n", &x, &o)) {
-			printf("read RGB control point %f/", x);
+			debug("read RGB control point %f/", x);
 			for (c = 0; c < CHANNELS; c++) {
 				i += o;
 				sscanf(line+i, "%lf%n", &y, &o);
-				printf("%f,", y);
+				debug("%f,", y);
 				add_point(&(points[c]), x, y);
 			}
-			putchar('\n');
-		} else printf("Warning: Unknown statement in config file: %s\n", line+i);
+			if (debug == &printf) putchar('\n');
+		} else debug("Warning: Unknown statement in config file: %s\n", line+i);
 	}
 	fclose(infile);
 
 	for (c = 0; c < CHANNELS; c++)
 		for (i = 0; i < points[c].length; i++)
-			printf("%s: %f/%f\n", channel[c], points[c].p[i].x, points[c].p[i].y);
+			debug("%s: %f/%f\n", channel[c], points[c].p[i].x, points[c].p[i].y);
 
 	if (!gradient.length) die("Config must specify a gradient length (LEN)");
   gradient.x = calloc(gradient.length, sizeof(RGB24));
 
 	/* actually generate the palette */
 	generate_palette(points, &gradient);
-	for (c = 0; c < gradient.length; c++) printf("%lf: %d, %d, %d\n",
+	for (c = 0; c < gradient.length; c++) debug("%lf: %d, %d, %d\n",
 		(double)c/gradient.length, gradient.x[c].y[RED],
 		gradient.x[c].y[GRN], gradient.x[c].y[BLU]
 	);
