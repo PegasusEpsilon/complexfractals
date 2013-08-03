@@ -54,8 +54,6 @@ void die (const char *fmt, ...) {	/* report errors */
 	exit(1);
 }
 
-int nothing (const char *f, ...) { return 0; }
-
 GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 	long long unsigned i, c, a, b;
 
@@ -97,6 +95,9 @@ CHANNEL *add_point (CHANNEL *in, double x, double y) {
 	return in;
 }
 
+/* do-nothing for when debug is disabled */
+int nothing (const char *f, ...) { return 0; }
+
 int main (int argc, char **argv) {
 	int c, i;
 	int (*debug)(const char *f, ...);
@@ -107,10 +108,13 @@ int main (int argc, char **argv) {
 	if (argc < 2) usage(argv[0]);
 
 	if (!strcmp("-v", argv[1])) {
-		debug = &printf;
+		/* perly shift */
 		argc--;
+		if (argc < 2) usage(argv[0]);
 		for (i = 1; i < argc; i++)
 			argv[i] = argv[i+1];
+		/* enable debugging */
+		debug = &printf;
 	} else debug = &nothing;
 
 	/* zero all lengths */
