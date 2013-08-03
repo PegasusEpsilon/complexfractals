@@ -61,8 +61,6 @@ palette: palette.c
 	$(LINK)
 
 clean:
-	rm mandelbrot.map mandelbrot.rgb mandelbrot.png || true
-	rm julia.map julia.rgb julia.png || true
-	rm palette.bin palette.png || true
-	rm mandelbrot julia palette render || true
-	rm mandelbrot.o julia.o iterator.o || true
+	rm mandelbrot.map mandelbrot.rgb mandelbrot.png julia.map julia.rgb \
+	julia.png palette.bin palette.png mandelbrot julia palette render \
+	mandelbrot.o julia.o iterator.o 2>/dev/null || true
