@@ -2,12 +2,12 @@
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
-** CHANGELOG:
-** 3.0a1 -- first version with a separated sampler/renderer.
-** 3.0a2 -- fixed bug where "in-set" indicator was ignored.
+**  CHANGELOG:
+**  3.0a1 -- first version with a separated sampler/renderer.
+**  3.0a2 -- fixed bug where "in-set" indicator was ignored.
 **
-** TODO:
-** -- Add a way to specify the color for samples that are in-set.
+**  TODO:
+**  -- Add a way to specify the color for samples that are in-set.
 */
 
 #define _POSIX_SOURCE	/* fileno() */
