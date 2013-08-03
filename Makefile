@@ -51,7 +51,7 @@ julia.map: julia
 julia: julia.o iterator.o
 	$(LINK)
 
-paltest.png: palette.bin
+palette.png: palette.bin
 	$(PNGIFY) -size 45x34 -depth 8 rgb:$? $@
 
 palette.bin: palette palette.txt
