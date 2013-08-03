@@ -26,6 +26,8 @@ PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HE
 
 all: mandelbrot julia palette render
 
+examples: palette.png mandelbrot.png julia.png
+
 mandelbrot.png: mandelbrot.rgb
 	$(PNGIFY)
 
