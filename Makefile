@@ -1,3 +1,5 @@
+# complexfractals/Makefile/v3 handwritten by Pegasus Epsilon <pegasus@pimpninjas.org>
+
 # FIX THIS PATH TO MAKE PNG FILES DIRECTLY
 CONVERT=/usr/src/ImageMagick-6.8.6-2/utilities/convert
 # FIX THIS PATH TO MAKE PNG FILES DIRECTLY
