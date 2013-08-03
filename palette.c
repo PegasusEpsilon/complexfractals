@@ -109,10 +109,8 @@ int main (int argc, char **argv) {
 
 	if (!strcmp("-v", argv[1])) {
 		/* perly shift */
-		argc--;
+		argc--; argv++;
 		if (argc < 2) usage(argv[0]);
-		for (i = 1; i < argc; i++)
-			argv[i] = argv[i+1];
 		/* enable debugging */
 		debug = &printf;
 	} else debug = &nothing;
