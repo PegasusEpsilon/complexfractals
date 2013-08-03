@@ -2,59 +2,69 @@
 CONVERT=/usr/src/ImageMagick-6.8.6-2/utilities/convert
 # FIX THIS PATH TO MAKE PNG FILES DIRECTLY
 
-HEIGHT=450
-WIDTH=800
-# julia uses CENTER_R and CENTER_I below to
-# determine seed and centers on 0+0i instead
-CENTER_R=-0.7766729
-CENTER_I=0.13661091
-RADIUS_R=0.00016
-RADIUS_I=0.00009
-# anything that can't compile clean with these
-# compiler flags is just plain bad code.
-CCOPTS=-Wall -pedantic -ansi -std=c99
-HEADERS=iterator.h types.h
+# palette divider (play with it, you'll see)
+DIVIDE=128
+# final image size
+HEIGHT=1080
+WIDTH=1920
+# julia uses CENTER_R and CENTER_I below to determine
+# seed and centers on 0+0i instead
+CENTER_R=0.3750001200618655
+CENTER_I=-0.2166393884377127
+RADIUS_R=0.000000000002
+RADIUS_I=0.000000000001125
+#CENTER_R=-0.7766729
+#CENTER_I=0.13661091
+#RADIUS_R=0.00016
+#RADIUS_I=0.00009
 
-all: mandelbrot julia render palette
+# You should never have to mess with anything below here, but feel free.
+CC=cc
+LIBS=-lm
+CFLAGS=-Ofast -Wall -pedantic -ansi -std=c99
+LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
+PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
+RENDER=	$^ 0 $(DIVIDE) $@
+SAMPLE=$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
 
-mandelbrot:	mandelbrot.c $(HEADERS)
-	cc $(CCOPTS) -lm mandelbrot.c -o mandelbrot
-
-julia:	julia.c $(HEADERS)
-	cc $(CCOPTS) -lm julia.c -o julia
-
-palette: palette.c $(HEADERS)
-	cc $(CCOPTS) -lm palette.c -o palette
-
-render: render.c $(HEADERS)
-	cc $(CCOPTS) render.c -o render
+all: mandelbrot julia palette render
 
 mandelbrot.png: mandelbrot.rgb
-	$(CONVERT) -size $(WIDTH)x$(HEIGHT) -depth 8 mandelbrot.rgb mandelbrot.png
+	$(PNGIFY)
 
 mandelbrot.rgb: render mandelbrot.map palette.bin
-	$^ 0 32 mandelbrot.rgb
+	$(RENDER)
 
 mandelbrot.map: mandelbrot
-	$^ $(WIDTH) $(HEIGHT) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 mandelbrot.map
+	$(SAMPLE)
+
+mandelbrot: mandelbrot.o iterator.o
+	$(LINK)
 
 julia.png: julia.rgb
-	$(CONVERT) -size $(WIDTH)x$(HEIGHT) -depth 8 julia.rgb julia.png
+	$(PNGIFY) 
 
 julia.rgb: render julia.map palette.bin
-	$^ 0 32 julia.rgb
+	$(RENDER)
 
 julia.map: julia
-	$^ $(WIDTH) $(HEIGHT) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 julia.map
+	$(SAMPLE)
+
+julia: julia.o iterator.o
+	$(LINK)
 
 paltest.png: palette.bin
-	$(CONVERT) -size 45x34 -depth 8 rgb:palette.bin paltest.png
+	$(PNGIFY) -size 45x34 -depth 8 rgb:$? $@
 
 palette.bin: palette palette.txt
-	$^ palette.bin
+	$^ $@
+
+palette: palette.c
+	$(LINK)
 
 clean:
-	rm mandelbrot julia palette render || true
 	rm mandelbrot.map mandelbrot.rgb mandelbrot.png || true
 	rm julia.map julia.rgb julia.png || true
-	rm palette.bin paltest.png || true
+	rm palette.bin palette.png || true
+	rm mandelbrot julia palette render || true
+	rm mandelbrot.o julia.o iterator.o || true

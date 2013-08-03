@@ -51,9 +51,3 @@ sample output from everything.
 
 TODO:
 * reenable in-pipe supersampling in render.c
-* double-check the renormalization formula and see if I can get more 
-precision out of it (in progress)
-* properly change iterator.h to iterator.h and iterator.o (pretty much 
-done, just playing with it some)
-* add -Ofast to CFLAGS in the Makefile (render times drop to 44% of 
-current, not pushed updates yet)
