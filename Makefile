@@ -3,7 +3,7 @@ CONVERT=/usr/src/ImageMagick-6.8.6-2/utilities/convert
 # FIX THIS PATH TO MAKE PNG FILES DIRECTLY
 
 # palette divider (play with it, you'll see)
-DIVIDE=128
+DIVIDE=64
 # final image size
 HEIGHT=1080
 WIDTH=1920
