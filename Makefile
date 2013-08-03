@@ -21,8 +21,7 @@ CC=cc
 LIBS=-lm
 CFLAGS=-Ofast -Wall -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-SAMPLE=$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
-RENDER=	$^ 0 $(DIVIDE) $@
+RENDER=$^ 0 $(DIVIDE) $@
 PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
 
 all: mandelbrot julia palette render
@@ -34,7 +33,7 @@ mandelbrot.rgb: render mandelbrot.map palette.bin
 	$(RENDER)
 
 mandelbrot.map: mandelbrot
-	$(SAMPLE)
+	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
 
 mandelbrot: mandelbrot.o iterator.o
 	$(LINK)
@@ -46,7 +45,7 @@ julia.rgb: render julia.map palette.bin
 	$(RENDER)
 
 julia.map: julia
-	$(SAMPLE)
+	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
 
 julia: julia.o iterator.o
 	$(LINK)
