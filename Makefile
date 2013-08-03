@@ -52,7 +52,7 @@ julia: julia.o iterator.o
 	$(LINK)
 
 palette.png: palette.bin
-	$(PNGIFY) -size 45x34 -depth 8 rgb:$? $@
+	$(CONVERT) -size 45x34 -depth 8 rgb:$? $@
 
 palette.bin: palette palette.txt
 	$^ $@
