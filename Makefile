@@ -19,9 +19,9 @@ CC=cc
 LIBS=-lm
 CFLAGS=-Ofast -Wall -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
-RENDER=	$^ 0 $(DIVIDE) $@
 SAMPLE=$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
+RENDER=	$^ 0 $(DIVIDE) $@
+PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
 
 all: mandelbrot julia palette render
 
