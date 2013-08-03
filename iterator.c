@@ -25,17 +25,6 @@ double iterate (complex *z, complex *c) {
 		(double)(deadline = 1);
 		i != last; i++
 	) {
-/*
-		if (i > 1 << 26 && 0 == i % 10000000) {
-			printf(
-				"\nvery high iteration count: %lld, "
-				"magnitude: %le (real: %le, imaginary: %le)\x1b[K",
-				i, magnitude, z->R, z->I
-			);
-			fflush(stdout);
-		}
-*/
-
 		z2.R = z->R * z->R;
 		z2.I = z->I * z->I;
 		magnitude = z2.R - z2.I + c->R;
