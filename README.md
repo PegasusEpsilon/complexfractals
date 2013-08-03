@@ -50,4 +50,5 @@ Type "make julia.png" or "make mandelbrot.png" or "make paltest.png" to see
 sample output from everything.
 
 TODO:
+* add method to specify render color for in-set samples
 * reenable in-pipe supersampling in render.c
