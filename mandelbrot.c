@@ -6,7 +6,7 @@
 **  3.0a1 -- first 3.0 version
 **  3.0a2 -- removed unneccessary "magnitude" variable
 **  3.0a3 -- removed unneccessary "tmp" variable in pixel2vector
-**	3.1   -- refactored to share an iterator with a julia renderer.
+**  3.1   -- refactored to share an iterator with a julia renderer.
 */
 
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
