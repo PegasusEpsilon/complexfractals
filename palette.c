@@ -1,4 +1,4 @@
-/* Palette generator, final version
+/* palette.c/v4 - palette generator for complexfractals
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified - http://pegasus.pimpninjas.org/license
 */

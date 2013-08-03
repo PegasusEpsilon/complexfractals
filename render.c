@@ -1,4 +1,4 @@
-/* v3.0a2/renderer half of the mandelbrot renderer.
+/* render.c/v3.0a2 - final RGB renderer for complexfractals.
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
@@ -8,6 +8,7 @@
 **
 **  TODO:
 **  -- Add a way to specify the color for samples that are in-set.
+**  -- Put in-pipeline supersampling back.
 */
 
 #define _POSIX_SOURCE	/* fileno() */

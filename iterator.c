@@ -1,4 +1,4 @@
-/* v0.2/generic iterator for julia and mandelbrot fractals
+/* iterator.c/v0.2 - generic iterator for complexfractals
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **

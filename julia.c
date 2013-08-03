@@ -1,4 +1,4 @@
-/* v3.1/sampling half of the julia renderer.
+/* julia.c/v3.1 - sampling half of the julia renderer for complexfractals.
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
