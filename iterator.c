@@ -1,12 +1,12 @@
-/* v0.1/generic iterator for julia and mandelbrot fractals
+/* v0.2/generic iterator for julia and mandelbrot fractals
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
 **	Changelog:
 **	v0.1 -- First version that works for both mandelbrot and julia.
+**  v0.2 -- Rewrote renormalization formula, reduced execution time 56%.
 */
-#include <math.h>   	/* log() */
-#include <stdio.h>
+#include <math.h>   	/* log(), log2() */
 #include "types.h"	/* struct complex */
 
 #define ESCAPE 4*4	/* 4*4 = root twice for smooth shading */
