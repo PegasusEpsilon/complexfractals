@@ -54,7 +54,7 @@ int main (int argc, char **argv) {
 		const unsigned char black[] = { 0, 0, 0 };
 		fread(&sample, sizeof(double), 1, infile);
 		if (0 <= sample)
-			fwrite(map.map + 3 * (int)(map.size + (sample + map.shift) * map.size / map.divider) % map.size, 1, 3, outfile);
+			fwrite(map.map + 3 * (int)(map.size + sample * map.size / map.divider + map.shift) % map.size, 1, 3, outfile);
 		else
 			fwrite(black, 1, 3, outfile);
 	}
