@@ -46,7 +46,7 @@ said parameters.
 Edit the Makefile and fix the path to Imagemagick's convert to make PNG files
 directly with make(1).
 
-Type "make julia.png" or "make mandelbrot.png" or "make paltest.png" to see
+Type "make julia.png" or "make mandelbrot.png" or "make palette.png" to see
 sample output from everything.
 
 TODO:
