@@ -92,16 +92,16 @@ int main (int argc, char **argv) {
 	printf("Image center: %f%+fi\n", window.center.R, window.center.I);
 	printf("Image radius: %f%+fi\n", window.radius.R, window.radius.I);
 	for (i.Y = 0; i.Y < img.Y; i.Y++) {
-		printf("\rline %d/%d, %0.2f%%...", i.Y, img.Y, (float)100*i.Y/img.Y);
+		printf("\rline %d/%d, %0.2f%%...", i.Y, img.Y, (float)i.Y*100/(float)img.Y);
 		fflush(stdout);
 		for (i.X = 0; i.X < img.X; i.X++) {
 			z.R = z.I = 0; /* constant for the mandelbrot set */
 			c = pixel2vector(i, size, window, angle);
 			sample = inset(&c) ? (double)-1 : iterate(&z, &c);
-			fwrite(&sample, sizeof(double), 1, outfile);
+			fwrite(&sample, sizeof(double), (size_t)1, outfile);
 		}
 	}
-	printf("\rline %d/%d, %0.2f%%...\n", i.Y, img.Y, (float)100*i.Y/img.Y);
+	printf("\rline %d/%d, %0.2f%%...\n", i.Y, img.Y, (float)i.Y*100/(float)img.Y);
 	fclose(outfile);
 	printf("Complete. Maximum iteration: %llu\n", maxiter);
 

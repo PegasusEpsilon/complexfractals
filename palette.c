@@ -61,18 +61,18 @@ GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 		a = points[c].p[0].x > 0 ? points[c].length - 1 : 0;
 		b = (a + 1) % points[c].length;
 		for (i = 0; i < gradient->length; i++) {
-			double y, x = (double)i / gradient->length;
+			double y, x = (double)i / (double)gradient->length;
 			while (x > points[c].p[b].x) {
 				b = ((a = (a + 1) % points[c].length) + 1) % points[c].length;
 				if (points[c].p[b].x < points[c].p[a].x) points[c].p[b].x++;
 			}
 			x -= points[c].p[a].x;	/* shift X */
-			x /= fmod(1 + points[c].p[b].x - points[c].p[a].x, 1);	/* scale X */
+			x /= fmod(1 + points[c].p[b].x - points[c].p[a].x, 1.0);	/* scale X */
 			y = (cos(PI * x) + 1) / 2;	/* interpolate! */
 			y *= points[c].p[a].y - points[c].p[b].y;	/* scale Y */
 			y += points[c].p[b].y;	/* shift Y */
 
-			gradient->x[i].y[c] = y * 255 + .5; /* multiply and round */
+			gradient->x[i].y[c] = (unsigned char)(y * 255 + .5); /* multiply and round */
 		}
 	}
 
@@ -168,7 +168,7 @@ int main (int argc, char **argv) {
 	/* actually generate the palette */
 	generate_palette(points, &gradient);
 	for (c = 0; c < gradient.length; c++) debug("%lf: %d, %d, %d\n",
-		(double)c/gradient.length, gradient.x[c].y[RED],
+		(double)c / (double)gradient.length, gradient.x[c].y[RED],
 		gradient.x[c].y[GRN], gradient.x[c].y[BLU]
 	);
 

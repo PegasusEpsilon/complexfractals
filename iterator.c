@@ -44,5 +44,5 @@ double iterate (complex *z, complex *c) {
 	maxiter = maxiter < i ? i : maxiter;
 
 	/* return normalized iteration count */
-	return i - log2(log(magnitude) / 2);
+	return (double)i - log2(log(magnitude) / 2);
 }

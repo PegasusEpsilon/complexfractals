@@ -21,7 +21,8 @@
 #include <unistd.h>   	/* fstat() */
 
 typedef struct {
-	int fd, size, shift;
+	size_t size;
+	int fd, shift;
 	double divider;
 	char *map;
 } palette;
@@ -42,9 +43,9 @@ int main (int argc, char **argv) {
 	{
 		struct stat info;
 		fstat(map.fd, &info);
-		map.size = info.st_size;
+		map.size = (size_t)info.st_size;
 	}
-	map.map = mmap(NULL, map.size, PROT_READ, MAP_SHARED, map.fd, 0);
+	map.map = mmap(NULL, map.size, PROT_READ, MAP_SHARED, map.fd, (size_t)0);
 	map.shift = atoi(argv[3]);
 	map.divider = atof(argv[4]);
 	outfile = fopen(argv[5], "w");
@@ -52,11 +53,11 @@ int main (int argc, char **argv) {
 	while (!feof(infile)) {
 		static double sample;
 		const unsigned char black[] = { 0, 0, 0 };
-		fread(&sample, sizeof(double), 1, infile);
+		fread(&sample, sizeof(double), (size_t)1, infile);
 		if (0 <= sample)
-			fwrite(map.map + 3 * (int)(map.size + sample * map.size / map.divider + map.shift) % map.size, 1, 3, outfile);
+			fwrite(map.map + 3 * (unsigned int)((double)map.size + sample * (double)map.size / map.divider + map.shift) % map.size, (size_t)1, (size_t)3, outfile);
 		else
-			fwrite(black, 1, 3, outfile);
+			fwrite(black, (size_t)1, (size_t)3, outfile);
 	}
 	fclose(infile);
 	close(map.fd);
