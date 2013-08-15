@@ -17,7 +17,7 @@
 #define TRUE !FALSE
 
 void usage (const char *myself) {
-	printf("%s width height centerX centerY radiusX radiusY seedReal seedImaginary angle outfile\n", myself);
+	printf("Usage: %s width height centerX centerY radiusX radiusY seedReal seedImaginary angle outfile\n", myself);
 	exit(1);
 }
 

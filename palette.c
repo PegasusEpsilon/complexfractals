@@ -80,7 +80,8 @@ GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 }
 
 void usage (const char *myself) {
-	printf("Usage: %s infile outfile\n", myself);
+	printf("Usage: %s infile outfile\n\n", myself);
+	puts("\t-v\tshow debug output");
 	exit(1);
 }
 

@@ -31,7 +31,7 @@ typedef struct {
 } palette;
 
 void usage(const char *myself) {
-	printf("%s [OPTION] samplefile palfile shift divider outfile\n\n", myself);
+	printf("Usage: %s [OPTION] samplefile palfile shift divider outfile\n\n", myself);
 	puts("\t-l\tapply the natural logarithm to each sample before mapping");
 	puts("\t\t(flatten more)");
 	puts("\t-2\tapply the base-2 logarithm to each sample before mapping");

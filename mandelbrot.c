@@ -20,7 +20,7 @@
 #define TRUE !FALSE
 
 void usage (const char *myself) {
-	printf("%s width height centerX centerY radiusX radiusY angle outfile\n", myself);
+	printf("Usage: %s width height centerX centerY radiusX radiusY angle outfile\n", myself);
 	exit(1);
 }
 
@@ -47,6 +47,8 @@ complex pixel2vector (pixel in, complex size, region window, double theta) {
 int inset (complex *c) {
 	/* quick check to see if the point is easily found in the set */
 	double tmp;
+
+	return FALSE;
 
 	/* skip chaos line */
 	if (0 == c->I && -1 > c->R && -2 < c->R) return TRUE;
