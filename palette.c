@@ -13,7 +13,9 @@
 #include <string.h>	/* strcmp() */
 #include <math.h> 	/* cos(), fmod() */
 
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
+#ifndef M_PI
+#	define M_PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
+#endif
 #define CHANNELS 3
 #define RED 0
 #define GRN 1
@@ -68,7 +70,7 @@ GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 			}
 			x -= points[c].p[a].x;	/* shift X */
 			x /= fmod(1 + points[c].p[b].x - points[c].p[a].x, 1.0);	/* scale X */
-			y = (cos(PI * x) + 1) / 2;	/* interpolate! */
+			y = (cos(M_PI * x) + 1) / 2;	/* interpolate! */
 			y *= points[c].p[a].y - points[c].p[b].y;	/* scale Y */
 			y += points[c].p[b].y;	/* shift Y */
 
