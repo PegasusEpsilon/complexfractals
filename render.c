@@ -12,13 +12,15 @@
 */
 
 #define _POSIX_SOURCE	/* fileno() */
-#include <stdio.h>    /* printf(), FILE, fopen(), fwrite(), fclose(), fileno() */
+#include <stdio.h>    /* printf(), puts(), FILE, fopen(), fwrite(), fclose(), fileno() */
 #include <stdlib.h> 	/* exit(), atoi(), atof() */
 #include <sys/mman.h> 	/* mmap() */
 #include <sys/types.h>	/* fstat(), open(), close() */
 #include <sys/stat.h> 	/* fstat(), open(), close() */
 #include <fcntl.h>    	/* open(), close() */
 #include <unistd.h>   	/* fstat() */
+#include <math.h>     	/* log() */
+#include <string.h>			/* strcmp() */
 
 typedef struct {
 	size_t size;
@@ -28,13 +30,27 @@ typedef struct {
 } palette;
 
 void usage(const char *myself) {
-	printf("%s samplefile palfile shift divider outfile\n", myself);
+	printf("%s [OPTION] samplefile palfile shift divider outfile\n\n", myself);
+	puts("\t-l\tapply the natural logarithm to each sample before mapping");
+	puts("\t\t(flatten more)");
+	puts("\t-2\tapply the base-2 logarithm to each sample before mapping");
+	puts("\t\t(flatten less)");
+	puts("\t\tOnly one logarithm may be applied at a time (for now)");
 	exit(1);
 }
+
+double nothing (double x) { return x; }
 
 int main (int argc, char **argv) {
 	FILE *infile, *outfile;
 	palette map;
+	double (*flatten)(double) = &nothing;
+
+	if (argc > 1) {
+		if (0 == strcmp("-l", argv[1])) flatten = &log;
+		if (0 == strcmp("-2", argv[1])) flatten = &log2;
+		if (flatten != &nothing) { argc--; argv++; }
+	}
 
 	if (6 != argc) usage(argv[0]);
 
