@@ -100,21 +100,17 @@ int nothing (const char *f, ...) { return 0; }
 
 int main (int argc, char **argv) {
 	int c, i;
-	int (*debug)(const char *f, ...);
+	int (*debug)(const char *f, ...) = &nothing;
 	CHANNEL points[CHANNELS];
 	GRADIENT gradient;
 	FILE *infile, *outfile;
 
-	if (argc < 2) usage(argv[0]);
-
-	if (!strcmp("-v", argv[1])) {
-		/* perly shift */
-		argc--; argv++;
-		if (argc < 2) usage(argv[0]);
-		/* enable debugging */
+	if (argc > 1 && !strcmp("-v", argv[1])) {
 		debug = &printf;
-	} else debug = &nothing;
+		argc--; argv++;
+	}
 
+	if (argc < 2) usage(argv[0]);
 	/* zero all lengths */
 	gradient.length = 0;
 	for (c = 0; c < CHANNELS; c++) points[c].length = 0;

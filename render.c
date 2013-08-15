@@ -71,7 +71,7 @@ int main (int argc, char **argv) {
 		const unsigned char black[] = { 0, 0, 0 };
 		fread(&sample, sizeof(double), (size_t)1, infile);
 		if (0 <= sample)
-			fwrite(map.map + 3 * (unsigned int)((double)map.size + sample * (double)map.size / map.divider + map.shift) % map.size, (size_t)1, (size_t)3, outfile);
+			fwrite(map.map + 3 * (unsigned int)((double)map.size + flatten(sample) * (double)map.size / map.divider + map.shift) % map.size, (size_t)1, (size_t)3, outfile);
 		else
 			fwrite(black, (size_t)1, (size_t)3, outfile);
 	}
