@@ -10,8 +10,8 @@ WIDTH=1920
 
 # palette shift and divider (play with them, you'll see)
 SHIFT=0
-MDIVIDE=.4	# logarithm massively changes the scale of this.
-JDIVIDE=128	# julia just looks better without the logarithm
+MDIVIDE=.3	# logarithm massively changes the scale of this.
+JDIVIDE=64	# julia just looks better without the logarithm
 # julia uses CENTER_R and CENTER_I below to determine
 # seed and centers on 0+0i instead
 
@@ -49,7 +49,6 @@ CC=cc
 LIBS=-lm
 CFLAGS=-Ofast -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-MRENDER=$^ $(SHIFT) $(MDIVIDE) $@
 JRENDER=$^ $(SHIFT) $(JDIVIDE) $@
 PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
 
@@ -60,8 +59,8 @@ examples: palette.png mandelbrot.png julia.png
 mandelbrot.png: mandelbrot.rgb
 	$(PNGIFY) || true
 
-mandelbrot.rgb: render -l mandelbrot.map palette.bin
-	$(MRENDER)
+mandelbrot.rgb: render mandelbrot.map palette.bin
+	$< -l mandelbrot.map palette.bin $(SHIFT) $(MDIVIDE) $@
 
 mandelbrot.map: mandelbrot
 	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
@@ -100,5 +99,3 @@ clean: map
 	rm mandelbrot.rgb mandelbrot.png julia.rgb julia.png \
 	palette.bin palette.png mandelbrot julia palette render \
 	mandelbrot.o julia.o iterator.o mapper.o render.o 2>/dev/null || true
-
-.PHONY:	-l

@@ -40,6 +40,11 @@ void usage(const char *myself) {
 	exit(1);
 }
 
+void fail (const char *msg) {   /* report function failures */
+        perror(msg);
+        exit(1);
+}
+
 double nothing (double x) { return x; }
 
 int main (int argc, char **argv) {
@@ -55,8 +60,8 @@ int main (int argc, char **argv) {
 
 	if (6 != argc) usage(argv[0]);
 
-	infile = fopen(argv[1], "r");
-	map.fd = open(argv[2], O_RDONLY);
+	if (NULL == (infile = fopen(argv[1], "r"))) fail(argv[1]);
+	if (-1 == (map.fd = open(argv[2], O_RDONLY))) fail(argv[2]);
 	{
 		struct stat info;
 		fstat(map.fd, &info);

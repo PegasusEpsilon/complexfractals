@@ -74,8 +74,8 @@ int main (int argc, char **argv) {
 		printf("\rline %d/%d, %0.2f%%...", i.Y, img.Y, (float)i.Y*100/(float)img.Y);
 		fflush(stdout);
 		for (i.X = 0; i.X < img.X; i.X++) {
-			z.R = z.I = 0; /* constant for the mandelbrot set */
 			c = pixel2vector(&i, &size, &window, angle);
+			z.R = c.R; z.I = c.I;	/* single iteration head start */
 			sample = inset(&c) ? (double)-1 : iterate(&z, &c);
 			fwrite(&sample, sizeof(double), (size_t)1, outfile);
 		}

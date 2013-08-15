@@ -12,7 +12,7 @@
 #define ESCAPE 4*4*4	/* 4*4*4 = root thrice for smooth shading */
 
 unsigned long long maxiter = 0;
-double iterate (complex * const z, complex * const c) {
+double iterate (complex *const z, complex *const c) {
 	/* returns -1 when in set, normalized escape time otherwise */
 	unsigned long long i, last, deadline;
 	double magnitude;
@@ -32,10 +32,16 @@ double iterate (complex * const z, complex * const c) {
 		z->R = magnitude;
 		magnitude = z2.R + z2.I;
 
+/* cross trap code
+		if ((d < 0 && .005 > fabs(z->R)) || d > fabs(z->R)) d = fabs(z->R);
+		if ((d < 0 && .005 > fabs(z->I)) || d > fabs(z->I)) d = fabs(z->I);
+*/
+
 		/* if point escaped, break out */
 		if ((unsigned long long)-1 == last && magnitude > ESCAPE) break;
 
 		/* periodic orbits are in the set, detect them and bail out. */
+/*		if (oz.R == z->R && oz.I == z->I) return d; */
 		if (oz.R == z->R && oz.I == z->I) return -1;
 		if (i > deadline) { oz.R = z->R; oz.I = z->I; deadline <<= 1; }
 	}
@@ -43,6 +49,7 @@ double iterate (complex * const z, complex * const c) {
 	/* track observed maximum iteration (for curiosity) */
 	maxiter = maxiter < i ? i : maxiter;
 
+/*	return d < 0 ? d : .005 - d; */
 	/* return normalized iteration count */
 	return (double)i - log2(log(magnitude) / 2);
 }
