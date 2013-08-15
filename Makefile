@@ -99,6 +99,6 @@ map:
 clean: map
 	rm mandelbrot.rgb mandelbrot.png julia.rgb julia.png \
 	palette.bin palette.png mandelbrot julia palette render \
-	mandelbrot.o julia.o iterator.o 2>/dev/null || true
+	mandelbrot.o julia.o iterator.o mapper.o 2>/dev/null || true
 
 .PHONY:	-l
