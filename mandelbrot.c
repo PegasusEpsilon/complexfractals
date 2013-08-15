@@ -44,11 +44,9 @@ complex pixel2vector (pixel in, complex size, region window, double theta) {
 	return out;
 }
 
-int inset (complex *c) {
+int inset (complex * const c) {
 	/* quick check to see if the point is easily found in the set */
 	double tmp;
-
-	return FALSE;
 
 	/* skip chaos line */
 	if (0 == c->I && -1 > c->R && -2 < c->R) return TRUE;
