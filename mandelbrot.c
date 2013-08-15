@@ -1,4 +1,4 @@
-/* mandelbrot.c/v3.1 - sampling half of the mandelbrot renderer for complexfractals.
+/* mandelbrot.c/v3.2 - sampling half of the mandelbrot renderer for complexfractals.
 ** by Pegasus Epsilon <pegasus@pimpninjas.org>
 ** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
 **
@@ -7,6 +7,7 @@
 **  3.0a2 -- removed unneccessary "magnitude" variable
 **  3.0a3 -- removed unneccessary "tmp" variable in pixel2vector
 **  3.1   -- refactored to share an iterator with a julia renderer.
+**  3.2   -- moved pixel2vector and pixelsize to mapper.o
 */
 
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
@@ -14,37 +15,15 @@
 #include <math.h>   	/* log() */
 #include "types.h"
 #include "iterator.h"
+#include "mapper.h"
+#include "constants.h"
 
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
-#define FALSE 0
-#define TRUE !FALSE
-
-void usage (const char *myself) {
+void usage (const char *const myself) {
 	printf("Usage: %s width height centerX centerY radiusX radiusY angle outfile\n", myself);
 	exit(1);
 }
 
-complex pixelsize (pixel img, region window) {
-	complex out;
-	out.R = 2 * window.radius.R / (img.X - 1);
-	out.I = 2 * window.radius.I / (img.Y - 1);
-	return out;
-}
-
-complex pixel2vector (pixel in, complex size, region window, double theta) {
-	complex out;
-
-	out.R = window.center.R
-		+ (in.X * size.R - window.radius.R) * cos(theta)
-		- (in.Y * size.I - window.radius.I) * sin(theta);
-	out.I = window.center.I
-		+ (in.X * size.R - window.radius.R) * sin(theta)
-		+ (in.Y * size.I - window.radius.I) * cos(theta);
-
-	return out;
-}
-
-int inset (complex * const c) {
+int inset (const complex *const c) {
 	/* quick check to see if the point is easily found in the set */
 	double tmp;
 
@@ -79,14 +58,14 @@ int main (int argc, char **argv) {
 	window.radius.R = atof(argv[5]);
 	window.radius.I = atof(argv[6]);
 
-	angle = atof(argv[7]) * PI / 180;
+	angle = atof(argv[7]) * M_PI / 180;
 
 	if (!(outfile = fopen(argv[8], "w"))) {
 		perror(argv[8]);
 		exit(3);
 	}
 
-	size = pixelsize(img, window);
+	size = pixelsize(&img, &window);
 
 	printf("Rendering %dx%d to %s...\n", img.X, img.Y, argv[8]);
 	printf("Image center: %f%+fi\n", window.center.R, window.center.I);
@@ -96,7 +75,7 @@ int main (int argc, char **argv) {
 		fflush(stdout);
 		for (i.X = 0; i.X < img.X; i.X++) {
 			z.R = z.I = 0; /* constant for the mandelbrot set */
-			c = pixel2vector(i, size, window, angle);
+			c = pixel2vector(&i, &size, &window, angle);
 			sample = inset(&c) ? (double)-1 : iterate(&z, &c);
 			fwrite(&sample, sizeof(double), (size_t)1, outfile);
 		}
