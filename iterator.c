@@ -9,10 +9,10 @@
 #include <math.h>   	/* log(), log2() */
 #include "types.h"	/* struct complex */
 
-#define ESCAPE 4*4	/* 4*4 = root twice for smooth shading */
+#define ESCAPE 4*4*4	/* 4*4*4 = root thrice for smooth shading */
 
 unsigned long long maxiter = 0;
-double iterate (complex *z, complex *c) {
+double iterate (complex * const z, complex * const c) {
 	/* returns -1 when in set, normalized escape time otherwise */
 	unsigned long long i, last, deadline;
 	double magnitude;
