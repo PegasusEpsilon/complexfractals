@@ -160,7 +160,7 @@ int main (int argc, char **argv) {
 			debug("%s: %f/%f\n", channel[c], points[c].p[i].x, points[c].p[i].y);
 
 	if (!gradient.length) die("Config must specify a gradient length (LEN)");
-  gradient.x = calloc(gradient.length, sizeof(RGB24));
+	gradient.x = calloc(gradient.length, sizeof(RGB24));
 
 	/* actually generate the palette */
 	generate_palette(points, &gradient);
