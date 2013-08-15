@@ -47,8 +47,8 @@ int main (int argc, char **argv) {
 	double (*flatten)(double) = &nothing;
 
 	if (argc > 1) {
-		if (0 == strcmp("-l", argv[1])) flatten = &log;
-		if (0 == strcmp("-2", argv[1])) flatten = &log2;
+		if (!strcmp("-l", argv[1])) flatten = &log;
+		if (!strcmp("-2", argv[1])) flatten = &log2;
 		if (flatten != &nothing) { argc--; argv++; }
 	}
 
