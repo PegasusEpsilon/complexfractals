@@ -1,4 +1,4 @@
-# complexfractals/Makefile/v3 handwritten by Pegasus Epsilon <pegasus@pimpninjas.org>
+# complexfractals/Makefile/v4 handwritten by Pegasus Epsilon <pegasus@pimpninjas.org>
 
 # FIX THIS PATH TO MAKE PNG FILES DIRECTLY
 CONVERT=/usr/src/ImageMagick-6.8.6-2/utilities/convert
@@ -10,10 +10,13 @@ WIDTH=1920
 
 # palette shift and divider (play with them, you'll see)
 SHIFT=0
-MDIVIDE=.3	# logarithm massively changes the scale of this.
-JDIVIDE=64	# julia just looks better without the logarithm
+LOGDIVIDE=.3	# logarithm massively changes the scale of this.
+DIVIDE=64	# julia just looks better without the logarithm
+
+### COORDINATES ###
+
 # julia uses CENTER_R and CENTER_I below to determine
-# seed and centers on 0+0i instead
+# "seed" and centers on 0+0i instead
 
 # full set
 #CENTER_R=-.75
@@ -49,7 +52,7 @@ CC=cc
 LIBS=-lm
 CFLAGS=-Ofast -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-JRENDER=$^ $(SHIFT) $(JDIVIDE) $@
+RENDER=$^ $(SHIFT) $(DIVIDE) $@
 PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
 
 all: mandelbrot julia palette render
@@ -60,7 +63,7 @@ mandelbrot.png: mandelbrot.rgb
 	$(PNGIFY) || true
 
 mandelbrot.rgb: render mandelbrot.map palette.bin
-	$< -l mandelbrot.map palette.bin $(SHIFT) $(MDIVIDE) $@
+	$< -l mandelbrot.map palette.bin $(SHIFT) $(LOGDIVIDE) $@
 
 mandelbrot.map: mandelbrot
 	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
@@ -72,7 +75,7 @@ julia.png: julia.rgb
 	$(PNGIFY) || true
 
 julia.rgb: render julia.map palette.bin
-	$(JRENDER)
+	$(RENDER)
 
 julia.map: julia
 	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
