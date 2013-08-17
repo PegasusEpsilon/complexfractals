@@ -120,7 +120,7 @@ int main (int argc, char **argv) {
 	for (c = 0; c < CHANNELS; c++) points[c].p = NULL;
 
 	/* read input file */
-	infile = fopen(argv[1], "r");
+	if (NULL == (infile = fopen(argv[1], "r"))) fail(argv[1]);
 	for (;;) {
 		char line[256];
 		double x, y;
