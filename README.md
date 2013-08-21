@@ -37,7 +37,7 @@ I'm pretty sure photoshop (and similar programs) flat-out can't handle images
 this large. I've managed to crash many programs with output from this,
 including IrfanView.
 
-I have tested renders up to approximately 130,000px square using ImageMagick,
+I have tested renders up to approximately 13,000px square using ImageMagick,
 though.
 
 All programs spit out a list of required parameters when you run them without
