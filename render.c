@@ -12,16 +12,16 @@
 **  -- Put in-pipeline supersampling back.
 */
 
-#define _POSIX_SOURCE	/* fileno() */
-#include <stdio.h>    /* printf(), puts(), FILE, fopen(), fwrite(), fclose(), fileno() */
-#include <stdlib.h> 	/* exit(), atoi(), atof() */
+#define _POSIX_SOURCE 	/* fileno() */
+#include <stdio.h>    	/* printf(), puts(), FILE, fopen(), fwrite(), fclose(), fileno() */
+#include <stdlib.h>   	/* exit(), atoi(), atof() */
 #include <sys/mman.h> 	/* mmap() */
 #include <sys/types.h>	/* fstat(), open(), close() */
 #include <sys/stat.h> 	/* fstat(), open(), close() */
 #include <fcntl.h>    	/* open(), close() */
 #include <unistd.h>   	/* fstat() */
 #include <math.h>     	/* log() */
-#include <string.h>			/* strcmp() */
+#include <string.h>   	/* strcmp() */
 
 typedef struct {
 	size_t size;
@@ -41,8 +41,8 @@ void usage(const char *myself) {
 }
 
 void fail (const char *msg) {   /* report function failures */
-        perror(msg);
-        exit(1);
+	perror(msg);
+	exit(1);
 }
 
 double nothing (double x) { return x; }
@@ -52,7 +52,7 @@ int main (int argc, char **argv) {
 	palette map;
 	double (*flatten)(double) = &nothing;
 
-	if (argc > 1) {
+	if (1 < argc) {
 		if (!strcmp("-l", argv[1])) flatten = &log;
 		if (!strcmp("-2", argv[1])) flatten = &log2;
 		if (flatten != &nothing) { argc--; argv++; }
@@ -62,7 +62,7 @@ int main (int argc, char **argv) {
 
 	if (NULL == (infile = fopen(argv[1], "r"))) fail(argv[1]);
 	if (-1 == (map.fd = open(argv[2], O_RDONLY))) fail(argv[2]);
-	{
+	{ /* c99 magic to allocate and free a temporary structure */
 		struct stat info;
 		fstat(map.fd, &info);
 		map.size = (size_t)info.st_size;
@@ -75,7 +75,10 @@ int main (int argc, char **argv) {
 	while (!feof(infile)) {
 		static double sample;
 		const unsigned char black[] = { 0, 0, 0 };
-		fread(&sample, sizeof(double), (size_t)1, infile);
+		if (
+			1 != fread(&sample, sizeof(double), (size_t)1, infile)
+			&& !feof(infile)
+		) fail(argv[1]);
 		if (0 <= sample)
 			fwrite(map.map + 3 * (unsigned int)((double)map.size + flatten(sample) * (double)map.size / map.divider + map.shift) % map.size, (size_t)1, (size_t)3, outfile);
 		else
