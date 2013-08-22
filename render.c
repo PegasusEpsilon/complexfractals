@@ -72,13 +72,13 @@ int main (int argc, char **argv) {
 	map.divider = atof(argv[4]);
 	outfile = fopen(argv[5], "w");
 
-	while (!feof(infile)) {
+	for (;;) { /* ever */
 		static double sample;
 		const unsigned char black[] = { 0, 0, 0 };
-		if (
-			1 != fread(&sample, sizeof(double), (size_t)1, infile)
-			&& !feof(infile)
-		) fail(argv[1]);
+		if (1 != fread(&sample, sizeof(double), (size_t)1, infile)) {
+			if (feof(infile)) break; /* clean EOF, all done */
+			else fail(argv[1]); /* shit broke, throw a fit */
+		} /* got data, do work */
 		if (0 <= sample)
 			fwrite(map.map + 3 * (unsigned int)((double)map.size + flatten(sample) * (double)map.size / map.divider + map.shift) % map.size, (size_t)1, (size_t)3, outfile);
 		else
