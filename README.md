@@ -9,8 +9,8 @@ Julia set: http://pegasusepsilon.minus.com/mNei5OeRbTx55
 
 Mandelbrot set: http://pegasusepsilon.minus.com/mbjMKPspCR
 
-Requires C99 for long long. No other reason. Can easily be switched to C89/C90
-by just removing that extra long. You'll lose precision, though.
+Requires C99 for long long. No other reason. Can easily be switched to
+C89/C90 by just removing that extra long. You'll lose precision, though.
 
 "mandelbrot" and "julia" sample the complex plane and save normalized 
 	sample data to the outputted sample map.
@@ -25,30 +25,25 @@ by just removing that extra long. You'll lose precision, though.
 	of your desired render. Resize appropriately for multisampled
 	anti-aliasing (MSAA).
 
+"resample" takes a multi-sampled RGB file and averages pixels to produce
+	a final RGB colormap.
+
+"pngify" compresses the final RGB colormap and turns it into a .png.
+	Obviously.
+
 Maximum resolution is effectively limited by your filesystem's maximum file
 size. Most people won't be able to render to files larger than 2GB. To
-circumvent filesystem limits, check the mkfifo(1) manpage.
-
-ImageMagick has a difficult time with files excessively large, but there are
-command-line parameters available to help with that. See the documentation for
-details.
-
-I'm pretty sure photoshop (and similar programs) flat-out can't handle images
-this large. I've managed to crash many programs with output from this,
-including IrfanView.
-
-I have tested renders up to approximately 13,000px square using ImageMagick,
-though.
+circumvent filesystem limits, or just save drive space, check the mkfifo(1)
+manpage.
 
 All programs spit out a list of required parameters when you run them without
 said parameters.
 
-Edit the Makefile and fix the path to Imagemagick's convert to make PNG files
-directly with make(1).
+Some programs accept a verbose flag, or various other optional flags to
+change their behavior in some way.
 
 Type "make julia.png" or "make mandelbrot.png" or "make palette.png" to see
 sample output from everything.
 
 TODO:
 * add method to specify render color for in-set samples
-* reenable in-pipe supersampling in render.c
