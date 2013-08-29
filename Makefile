@@ -56,11 +56,11 @@ RADIUS_R=0.00016
 RADIUS_I=$(shell echo "scale=40;$(RADIUS_R)*$(HEIGHT)/$(WIDTH)" | bc)
 
 CC=cc
-LIBS=-lm
+LIBS=
 CFLAGS=-Ofast -Werror -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
-all:	mandelbrot julia palette render
+all:	mandelbrot julia palette render resample pngify
 
 examples:	palette.png mandelbrot.png julia.png
 
@@ -79,7 +79,7 @@ mandelbrot.map:	mandelbrot
 	#time $^ $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
 
 mandelbrot:	mandelbrot.o iterator.o mapper.o
-	$(LINK)
+	$(LINK) -lm
 
 julia.png:	pngify julia.rgb
 	./$^ $(WIDTH) $(HEIGHT) $@ || true
@@ -96,7 +96,7 @@ julia.map:	julia
 	#time ./$^ $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
 
 julia:	julia.o iterator.o mapper.o
-	$(LINK)
+	$(LINK) -lm
 
 palette.png:	pngify palette.bin
 	./$^ 45 34 $@
@@ -105,16 +105,13 @@ palette.bin:	palette blueglow.txt
 	./$^ $@
 
 palette:	palette.c
-	$(LINK)
+	$(LINK) -lm
 
-render:	render.o
-	$(LINK)
+render:	render.c
+	$(LINK) -lm
 
 pngify:	pngify.c
 	$(LINK) -lz
-
-testcrc:	testcrc.o crc32.o
-	$(LINK)
 
 pal:
 	rm palette.bin 2>/dev/null || true
