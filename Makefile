@@ -6,7 +6,7 @@ WIDTH=$$((1920))
 
 # multi-sampling anti-aliasing
 # 1 = off, 2 = 4x, 3 = 9x, 4 = 16x, 5 = 25x, etc.
-MSAA=16
+MSAA=2
 
 # palette shift and divider (play with them, you'll see)
 SHIFT=0
