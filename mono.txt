@@ -1,0 +1,9 @@
+LEN 1530
+
+RED 0 0 # black
+GRN 0 0
+BLU 0 0
+
+RED 1 1 # white
+GRN 1 1
+BLU 1 1
