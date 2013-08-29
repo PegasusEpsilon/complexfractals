@@ -34,7 +34,7 @@ C89/C90 by just removing that extra long. You'll lose precision, though.
 Maximum resolution is effectively limited by your filesystem's maximum file
 size. Most people won't be able to render to files larger than 2GB. To
 circumvent filesystem limits, or just save drive space, check the mkfifo(1)
-manpage.
+manpage, and/or read the huge(mandelbrot|julia).sh scripts.
 
 All programs spit out a list of required parameters when you run them without
 said parameters.
