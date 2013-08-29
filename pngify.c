@@ -73,10 +73,13 @@ void die (const char *fmt, ...) {       /* report errors */
 
 void fwrite_chunk (void *chunk, FILE *ofile) {
 	/* finally checksumming properly. */
-	uint32_t *csz = chunk;	/* cast chunk as uint32_t */
-	size_t size = *csz;	/* save length */
-	void *ctc = &((PNG_chunk *)chunk)->typecode;	/* CRC start */
-	uint32_t crc = htonl(crc32(0, ctc, (size - sizeof(uint32_t))));	/* do CRC */
+	uint32_t *csz, crc;
+	size_t size;
+	void *ctc;
+	csz = chunk;	/* cast chunk as uint32_t -> chunk size */
+	size = *csz;	/* save length */
+	ctc = &((PNG_chunk *)chunk)->typecode;	/* CRC starts here */
+	crc = htonl(crc32(0, ctc, (size - sizeof(uint32_t))));	/* do CRC */
 	*csz = htonl(*csz - (uint32_t)sizeof(PNG_header));	/* fix length */
 	fwrite(chunk, size, (size_t)1, ofile);	/* write chunk */
 	fwrite(&crc, sizeof(uint32_t), (size_t)1, ofile);	/* write CRC */
@@ -94,9 +97,9 @@ int main (int argc, char **argv) {
 	size_t written = 0, scanline;
 	int (*debug)(const char *, ...) = &nothing;
 
-	if (1 < argc) {
+	if (1 < argc) {	/* turn on verbose, maybe */
 		if (!strcmp("-v", argv[1])) debug = &printf;
-		if (debug != &nothing) { argc--; argv++; }
+		if (debug != &nothing) { argv[1] = argv[0]; argc--; argv++; }
 	}
 
 	/* make sure we've got our args */
