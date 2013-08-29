@@ -22,10 +22,13 @@ void usage (const char *const myself) {
 
 int main (int argc, char **argv) {
 	double angle, sample;
-	pixel img, i;
-	region window;
-	complex size, z, c;
+	TRAP trap;
+	PIXEL img, i;
+	REGION window;
+	COMPLEX size, z, c;
 	FILE *outfile;
+
+	trap = trapcheck(&argc, &argv);
 
 	if (11 != argc) { usage(argv[0]); }
 
@@ -57,7 +60,7 @@ int main (int argc, char **argv) {
 		fflush(stdout);
 		for (i.X = 0; i.X < img.X; i.X++) {
 			z = pixel2vector(&i, &size, &window, angle);
-			sample = iterate(&z, &c);
+			sample = iterate(&z, &c, &trap);
 			fwrite(&sample, sizeof(double), (size_t)1, outfile);
 		}
 	}

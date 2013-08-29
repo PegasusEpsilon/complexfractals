@@ -62,7 +62,7 @@ int main (int argc, char **argv) {
 
 	if (NULL == (infile = fopen(argv[1], "r"))) fail(argv[1]);
 	if (-1 == (map.fd = open(argv[2], O_RDONLY))) fail(argv[2]);
-	{ /* c99 magic to allocate and free a temporary structure */
+	{ /* magically allocate and free a temporary structure */
 		struct stat info;
 		fstat(map.fd, &info);
 		map.size = (size_t)info.st_size;

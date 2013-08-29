@@ -6,6 +6,8 @@
 #define ITERATOR_H
 #include "types.h"
 
-extern long long unsigned maxiter;
-extern double iterate (complex*, complex*);
+long long unsigned maxiter;
+extern double (*iterate) (const COMPLEX*, const COMPLEX*, void*);
+TRAP trapcheck(int*, char***);
+int inset (const COMPLEX* const);
 #endif /* ITERATOR_H */

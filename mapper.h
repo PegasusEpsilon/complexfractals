@@ -6,9 +6,11 @@
 **  v1.0 -- pulled into seperate module
 */
 
-complex pixelsize (const pixel *const img, const region *const window);
+#include "types.h"
 
-complex pixel2vector (
-	const pixel *const in, const complex *const size,
-	const region *const window, const double theta
+COMPLEX pixelsize (const PIXEL *const, const REGION *const);
+
+COMPLEX pixel2vector (
+	const PIXEL *const, const COMPLEX *const,
+	const REGION *const, const double
 );

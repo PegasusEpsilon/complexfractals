@@ -5,19 +5,26 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <inttypes.h>
+
 typedef struct {
 	double R;
 	double I;
-} complex;
+} COMPLEX;
 
 typedef struct {
-	complex center;
-	complex radius;
-} region;
+	COMPLEX center;
+	COMPLEX radius;
+} REGION;
 
 typedef struct {
 	int X;
 	int Y;
-} pixel;
+} PIXEL;
+
+typedef struct {
+	double angle, dist, sin, cos, hyp;
+	uint32_t start;
+} TRAP;
 
 #endif

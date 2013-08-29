@@ -10,12 +10,11 @@
 #include <stdio.h>	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
 #include <stdlib.h>	/* exit(), realloc(), calloc(), free() */
 #include <stdarg.h>	/* va_list, va_start(), vprintf(), va_end() */
+#include <inttypes.h>	/* uint8_t */
 #include <string.h>	/* strcmp() */
 #include <math.h> 	/* cos(), fmod() */
+#include "constants.h"
 
-#ifndef M_PI
-#	define M_PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421
-#endif
 #define CHANNELS 3
 #define RED 0
 #define GRN 1
@@ -24,7 +23,7 @@
 char *channel[] = {"RED", "GRN", "BLU"};
 
 typedef struct {
-	unsigned char y[CHANNELS];
+	uint8_t y[CHANNELS];
 } RGB24;
 
 typedef struct {
@@ -64,17 +63,18 @@ GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
 		b = (a + 1) % points[c].length;
 		for (i = 0; i < gradient->length; i++) {
 			double y, x = (double)i / (double)gradient->length;
+			double dx = fmod(1 + points[c].p[b].x - points[c].p[a].x, 1.0);
 			while (x > points[c].p[b].x) {
 				b = ((a = (a + 1) % points[c].length) + 1) % points[c].length;
 				if (points[c].p[b].x < points[c].p[a].x) points[c].p[b].x++;
 			}
 			x -= points[c].p[a].x;	/* shift X */
-			x /= fmod(1 + points[c].p[b].x - points[c].p[a].x, 1.0);	/* scale X */
+			if (dx) x /= dx;	/* scale X */
 			y = (cos(M_PI * x) + 1) / 2;	/* interpolate! */
 			y *= points[c].p[a].y - points[c].p[b].y;	/* scale Y */
 			y += points[c].p[b].y;	/* shift Y */
 
-			gradient->x[i].y[c] = (unsigned char)(y * 255 + .5); /* multiply and round */
+			gradient->x[i].y[c] = (uint8_t)(y * 255 + .5); /* multiply and round */
 		}
 	}
 

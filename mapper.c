@@ -9,18 +9,18 @@
 #include <math.h>
 #include "types.h"
 
-complex pixelsize (const pixel *const img, const region *const window) {
-	complex out;
+COMPLEX pixelsize (const PIXEL *const img, const REGION *const window) {
+	COMPLEX out;
 	out.R = 2 * window->radius.R / (img->X - 1);
 	out.I = 2 * window->radius.I / (img->Y - 1);
 	return out;
 }
 
-complex pixel2vector (
-	const pixel *const in, const complex *const size,
-	const region *const window, const double theta
+COMPLEX pixel2vector (
+	const PIXEL *const in, const COMPLEX *const size,
+	const REGION *const window, const double theta
 ) {
-	complex out;
+	COMPLEX out;
 
 	out.R = window->center.R
 		+ (in->X * size->R - window->radius.R) * cos(theta)
