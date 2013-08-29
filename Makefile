@@ -1,17 +1,24 @@
 # complexfractals/Makefile/v4 handwritten by Pegasus Epsilon <pegasus@pimpninjas.org>
 
-# FIX THIS PATH TO MAKE PNG FILES DIRECTLY
-CONVERT=/usr/src/ImageMagick-6.8.6-2/utilities/convert
-# FIX THIS PATH TO MAKE PNG FILES DIRECTLY
-
 # final image size
-HEIGHT=1080
-WIDTH=1920
+HEIGHT=$$((1080))
+WIDTH=$$((1920))
+
+# multi-sampling anti-aliasing
+# 1 = off, 2 = 4x, 3 = 9x, 4 = 16x, 5 = 25x, etc.
+MSAA=16
 
 # palette shift and divider (play with them, you'll see)
 SHIFT=0
-LOGDIVIDE=.3	# logarithm massively changes the scale of this.
-DIVIDE=64	# julia just looks better without the logarithm
+# logarithm massively changes the scale of this.
+LOGDIVIDE=.3
+# cross-trap shading changes things too.
+TRAPANGLE=0
+TRAPDISTANCE=.005
+TRAPDIVIDE=$(shell echo "scale=40;$(TRAPDISTANCE)*3" | bc)
+TRAPSTART=1
+# julia just looks better without the logarithm
+DIVIDE=64
 
 ### COORDINATES ###
 
@@ -50,55 +57,74 @@ RADIUS_I=$(shell echo "scale=40;$(RADIUS_R)*$(HEIGHT)/$(WIDTH)" | bc)
 
 CC=cc
 LIBS=-lm
-CFLAGS=-Ofast -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
+CFLAGS=-Ofast -Werror -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
-RENDER=$^ $(SHIFT) $(DIVIDE) $@
-PNGIFY=$(CONVERT) -size $$(($(WIDTH)*2))x$$(($(HEIGHT)*2)) -resize $(WIDTH)x$(HEIGHT) -depth 8 $? $@
 
-all: mandelbrot julia palette render
+all:	mandelbrot julia palette render
 
-examples: palette.png mandelbrot.png julia.png
+examples:	palette.png mandelbrot.png julia.png
 
-mandelbrot.png: mandelbrot.rgb
-	$(PNGIFY) || true
+mandelbrot.png:	pngify mandelbrot.rgb
+	./$^ $(WIDTH) $(HEIGHT) $@ || true
 
-mandelbrot.rgb: render mandelbrot.map palette.bin
-	$< -l mandelbrot.map palette.bin $(SHIFT) $(LOGDIVIDE) $@
+mandelbrot.rgb:	resample mandelbrot.msaa
+	./$^ $(WIDTH) $(MSAA) $@
 
-mandelbrot.map: mandelbrot
-	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
+mandelbrot.msaa:	render mandelbrot.map palette.bin
+	./$^ $(SHIFT) $(TRAPDIVIDE) $@
+	#./$^ $(SHIFT) $(DIVIDE) $@
 
-mandelbrot: mandelbrot.o iterator.o mapper.o
+mandelbrot.map:	mandelbrot
+	time ./$^ --crosstrap $(TRAPANGLE) $(TRAPDISTANCE) $(TRAPSTART) $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
+	#time $^ $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) $(CENTER_R) $(CENTER_I) $(RADIUS_R) $(RADIUS_I) 0 $@
+
+mandelbrot:	mandelbrot.o iterator.o mapper.o
 	$(LINK)
 
-julia.png: julia.rgb
-	$(PNGIFY) || true
+julia.png:	pngify julia.rgb
+	./$^ $(WIDTH) $(HEIGHT) $@ || true
 
-julia.rgb: render julia.map palette.bin
-	$(RENDER)
+julia.rgb:	resample julia.msaa
+	./$^ $(WIDTH) $(MSAA) $@
 
-julia.map: julia
-	$^ $$(($(WIDTH)*2)) $$(($(HEIGHT)*2)) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
+julia.msaa:	render julia.map palette.bin
+	./$^ $(SHIFT) $(TRAPDIVIDE) $@
+	#./$^ $(SHIFT) $(DIVIDE) $@
 
-julia: julia.o iterator.o mapper.o
+julia.map:	julia
+	time ./$^ --crosstrap $(TRAPANGLE) $(TRAPDISTANCE) $(TRAPSTART) $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
+	#time ./$^ $$(($(WIDTH)*$(MSAA))) $$(($(HEIGHT)*$(MSAA))) 0 0 2 1.125 $(CENTER_R) $(CENTER_I) 0 $@
+
+julia:	julia.o iterator.o mapper.o
 	$(LINK)
 
-palette.png: palette.bin
-	$(CONVERT) -size 45x34 -depth 8 rgb:$? $@
+palette.png:	pngify palette.bin
+	./$^ 45 34 $@
 
-palette.bin: palette palette.txt
-	$^ $@
+palette.bin:	palette blueglow.txt
+	./$^ $@
 
-palette: palette.c
+palette:	palette.c
 	$(LINK)
 
 render:	render.o
 	$(LINK)
 
-map:
-	rm mandelbrot.map julia.map || true
+pngify:	pngify.c
+	$(LINK) -lz
 
-clean: map
-	rm mandelbrot.rgb mandelbrot.png julia.rgb julia.png \
-	palette.bin palette.png mandelbrot julia palette render \
-	mandelbrot.o julia.o iterator.o mapper.o render.o 2>/dev/null || true
+testcrc:	testcrc.o crc32.o
+	$(LINK)
+
+pal:
+	rm palette.bin 2>/dev/null || true
+
+map:
+	rm mandelbrot.map julia.map 2>/dev/null || true
+
+clean:	pal map
+	rm julia.png mandelbrot.png palette.png \
+		julia.rgb mandelbrot.rgb \
+		julia.msaa mandelbrot.msaa \
+		julia.o mandelbrot.o iterator.o mapper.o render.o resample.o pngify.o \
+		julia mandelbrot palette render resample pngify 2>/dev/null || true
