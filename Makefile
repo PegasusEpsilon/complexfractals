@@ -16,6 +16,8 @@ LOGDIVIDE=.3
 TRAPANGLE=0
 TRAPDISTANCE=.005
 TRAPDIVIDE=$(shell echo "scale=40;$(TRAPDISTANCE)*3" | bc)
+# iteration on which to start the trap
+# higher numbers remove more foreground trap lines
 TRAPSTART=1
 # julia just looks better without the logarithm
 DIVIDE=64
