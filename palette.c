@@ -125,7 +125,7 @@ int main (int argc, char **argv) {
 	for (;;) {
 		char line[256];
 		double x, y;
-		int o;
+		int o = 0;
 
 		if (NULL == fgets(line, 256, infile)) {
 			if (feof(infile)) break;
