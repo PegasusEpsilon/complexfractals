@@ -56,7 +56,7 @@ void die (const char *fmt, ...) {	/* report errors */
 }
 
 GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
-	short char c;	/* only three channels, after all */
+	uint8_t c;	/* only three channels, after all */
 	size_t i, a, b;
 
 	for (c = 0; c < CHANNELS; c++) {
@@ -103,7 +103,7 @@ CHANNEL *add_point (CHANNEL *in, double x, double y) {
 int nothing (const char *f, ...) { return 0; }
 
 int main (int argc, char **argv) {
-	int c, i;
+	size_t c, i;
 	int (*debug)(const char *f, ...) = &nothing;
 	CHANNEL points[CHANNELS];
 	GRADIENT gradient;
