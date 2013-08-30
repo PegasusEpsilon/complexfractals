@@ -56,7 +56,8 @@ void die (const char *fmt, ...) {	/* report errors */
 }
 
 GRADIENT *generate_palette (const CHANNEL *points, GRADIENT *gradient) {
-	long long unsigned i, c, a, b;
+	short char c;	/* only three channels, after all */
+	size_t i, a, b;
 
 	for (c = 0; c < CHANNELS; c++) {
 		a = points[c].p[0].x > 0 ? points[c].length - 1 : 0;
@@ -89,7 +90,7 @@ void usage (const char *myself) {
 
 CHANNEL *add_point (CHANNEL *in, double x, double y) {
 	POINT *new_p;
-	new_p = realloc(in->p, ((size_t)1 + in->length) * sizeof(POINT));
+	new_p = realloc(in->p, (in->length + 1) * sizeof(POINT));
 	if (!new_p) fail("failed to allocate memory");
 	in->p = new_p;
 	in->p[in->length].x = x;
