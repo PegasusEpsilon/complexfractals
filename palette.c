@@ -125,7 +125,7 @@ int main (int argc, char **argv) {
 	for (;;) {
 		char line[256];
 		double x, y;
-		int o = 0;
+		int o;
 
 		if (NULL == fgets(line, 256, infile)) {
 			if (feof(infile)) break;
@@ -137,18 +137,19 @@ int main (int argc, char **argv) {
 			debug("gradient length: %llu\n", gradient.length);
 			continue;
 		} else if (sscanf(line+i, "RED%lf%lf", &x, &y)) {
-			debug("read RED control point %f/%f\n", x, y);
+			debug("read RED control point %lf/%lf\n", x, y);
 			add_point(&points[RED], x, y);
 		} else if (sscanf(line+i, "GRN%lf%lf", &x, &y)) {
-			debug("read GRN control point %f/%f\n", x, y);
+			debug("read GRN control point %lf/%lf\n", x, y);
 			add_point(&points[GRN], x, y);
 		} else if (sscanf(line+i, "BLU%lf%lf", &x, &y)) {
-			debug("read BLU control point %f/%f\n", x, y);
+			debug("read BLU control point %lf/%lf\n", x, y);
 			add_point(&points[BLU], x, y);
 		} else if (sscanf(line+i, "RGB%lf%n", &x, &o)) {
-			debug("read RGB control point %f/", x);
+			/* not sure this works, need to test it */
+			debug("read RGB control point %lf", x);
 			for (c = 0; c < CHANNELS; c++) {
-				i += o;
+				i += (size_t)o;
 				sscanf(line+i, "%lf%n", &y, &o);
 				debug("%f,", y);
 				add_point(&(points[c]), x, y);
