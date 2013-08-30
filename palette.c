@@ -10,7 +10,12 @@
 #include <stdio.h>	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
 #include <stdlib.h>	/* exit(), realloc(), calloc(), free() */
 #include <stdarg.h>	/* va_list, va_start(), vprintf(), va_end() */
-#include <inttypes.h>	/* uint8_t */
+#ifdef _WIN32
+#	include <stdint.h>	/* uint8_t */
+#else
+#	include <inttypes.h>	/* uint8_t	*/
+#endif
+#include <sys/types.h>	/* ssize_t */
 #include <string.h>	/* strcmp() */
 #include <math.h> 	/* cos(), fmod() */
 #include "constants.h"
@@ -103,7 +108,7 @@ CHANNEL *add_point (CHANNEL *in, double x, double y) {
 int nothing (const char *f, ...) { return 0; }
 
 int main (int argc, char **argv) {
-	size_t c, i;
+	ssize_t c, i;
 	int (*debug)(const char *f, ...) = &nothing;
 	CHANNEL points[CHANNELS];
 	GRADIENT gradient;
@@ -125,7 +130,7 @@ int main (int argc, char **argv) {
 	for (;;) {
 		char line[256];
 		double x, y;
-		int o = 0;
+		ssize_t o = 0;
 
 		if (NULL == fgets(line, 256, infile)) {
 			if (feof(infile)) break;
@@ -145,12 +150,12 @@ int main (int argc, char **argv) {
 		} else if (sscanf(line+i, "BLU%lf%lf", &x, &y)) {
 			debug("read BLU control point %lf/%lf\n", x, y);
 			add_point(&points[BLU], x, y);
-		} else if (sscanf(line+i, "RGB%lf%n", &x, &o)) {
+		} else if (sscanf(line+i, "RGB%lf%zn", &x, (ssize_t *)&o)) {
 			/* not sure this works, need to test it */
 			debug("read RGB control point %lf", x);
 			for (c = 0; c < CHANNELS; c++) {
-				i += (size_t)o;
-				sscanf(line+i, "%lf%n", &y, &o);
+				i += o;
+				sscanf(line+i, "%lf%zn", &y, &o);
 				debug("%f,", y);
 				add_point(&(points[c]), x, y);
 			}
