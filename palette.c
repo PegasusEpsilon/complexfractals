@@ -108,7 +108,7 @@ CHANNEL *add_point (CHANNEL *in, double x, double y) {
 int nothing (const char *f, ...) { return 0; }
 
 int main (int argc, char **argv) {
-	ssize_t c, i;
+	size_t c, i;
 	int (*debug)(const char *f, ...) = &nothing;
 	CHANNEL points[CHANNELS];
 	GRADIENT gradient;
@@ -130,7 +130,7 @@ int main (int argc, char **argv) {
 	for (;;) {
 		char line[256];
 		double x, y;
-		ssize_t o = 0;
+		int o = 0;
 
 		if (NULL == fgets(line, 256, infile)) {
 			if (feof(infile)) break;
@@ -150,12 +150,12 @@ int main (int argc, char **argv) {
 		} else if (sscanf(line+i, "BLU%lf%lf", &x, &y)) {
 			debug("read BLU control point %lf/%lf\n", x, y);
 			add_point(&points[BLU], x, y);
-		} else if (sscanf(line+i, "RGB%lf%zn", &x, (ssize_t *)&o)) {
+		} else if (sscanf(line+i, "RGB%lf%n", &x, &o)) {
 			/* not sure this works, need to test it */
 			debug("read RGB control point %lf", x);
 			for (c = 0; c < CHANNELS; c++) {
-				i += o;
-				sscanf(line+i, "%lf%zn", &y, &o);
+				i += (size_t)o;
+				sscanf(line+i, "%lf%n", &y, &o);
 				debug("%f,", y);
 				add_point(&(points[c]), x, y);
 			}
