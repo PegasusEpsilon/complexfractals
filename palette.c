@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
 	RGB24 *x;
-	unsigned long long length;
+	size_t length;
 } GRADIENT;
 
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 
 typedef struct {
 	POINT *p;
-	unsigned long long length;
+	size_t length;
 } CHANNEL;
 
 void fail (const char *msg) {	/* report function failures */
@@ -89,7 +89,7 @@ void usage (const char *myself) {
 
 CHANNEL *add_point (CHANNEL *in, double x, double y) {
 	POINT *new_p;
-	new_p = realloc(in->p, (1 + in->length) * sizeof(POINT));
+	new_p = realloc(in->p, ((size_t)1 + in->length) * sizeof(POINT));
 	if (!new_p) fail("failed to allocate memory");
 	in->p = new_p;
 	in->p[in->length].x = x;
@@ -132,7 +132,7 @@ int main (int argc, char **argv) {
 		}
 		for (i = 0; ' ' == line[i] || '\t' == line[i]; i++);	/* skip whitespace */
 		if ('#' == line[i] || '\n' == line[i]) continue;	/* skip comments */
-		if (sscanf(line+i, "LEN%llu", &gradient.length)) {
+		if (sscanf(line+i, "LEN%zu", &gradient.length)) {
 			debug("gradient length: %llu\n", gradient.length);
 			continue;
 		} else if (sscanf(line+i, "RED%lf%lf", &x, &y)) {
