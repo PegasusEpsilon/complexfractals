@@ -15,7 +15,6 @@
 #else
 #	include <inttypes.h>	/* uint8_t	*/
 #endif
-#include <sys/types.h>	/* ssize_t */
 #include <string.h>	/* strcmp() */
 #include <math.h> 	/* cos(), fmod() */
 #include "constants.h"
