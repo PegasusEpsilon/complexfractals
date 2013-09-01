@@ -149,8 +149,12 @@ int main (int argc, char **argv) {
 	stream.zfree = Z_NULL;
 	stream.opaque = Z_NULL;
 	stream.next_in = Z_NULL;
+#pragma GCC diagnostic push
+	/* Fuck zlib. Seriously. */
+#pragma GCC diagnostic ignored "-Wtraditional-conversion"
 	if (Z_OK != deflateInit2(&stream, 9, Z_DEFLATED, -15, 9, Z_DEFAULT_STRATEGY))
 		die("failed to initialize zlib");
+#pragma GCC diagnostic pop
 
 	crc = crc32(crc, zlib_header, 2);
 	fwrite(zlib_header, (size_t)2, (size_t)1, ofile);
