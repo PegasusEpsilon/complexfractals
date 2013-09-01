@@ -1,11 +1,11 @@
 /* iterator.c/v0.2 - generic iterator for complexfractals
-** by Pegasus Epsilon <pegasus@pimpninjas.org>
-** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
-**
-**  Changelog:
-**  0.1 -- First version that works for both mandelbrot and julia.
-**  0.2 -- Rewrote renormalization formula, reduced execution time 56%.
-*/
+ * by Pegasus Epsilon <pegasus@pimpninjas.org>
+ * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
+ *
+ *  Changelog:
+ *  0.1 -- First version that works for both mandelbrot and julia.
+ *  0.2 -- Rewrote renormalization formula, reduced execution time 56%.
+ */
 #include <math.h>   	/* log(), log2(), sin(), cos(), sqrt() */
 #include <stdlib.h> 	/* atof() */
 #include <string.h> 	/* strcmp() */

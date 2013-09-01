@@ -1,11 +1,11 @@
 /* julia.c/v3.1 - sampling half of the julia renderer for complexfractals.
-** by Pegasus Epsilon <pegasus@pimpninjas.org>
-** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
-**
-**  Changelog:
-**  3.1 -- forked from mandelbrot sampler
-**  3.2 -- moved pixel2vector and pixelsize to mapper.o
-*/
+ * by Pegasus Epsilon <pegasus@pimpninjas.org>
+ * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
+ *
+ *  Changelog:
+ *  3.1 -- forked from mandelbrot sampler
+ *  3.2 -- moved pixel2vector and pixelsize to mapper.o
+ */
 
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
 #include <stdlib.h> 	/* exit(), atoi(), atof() */

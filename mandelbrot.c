@@ -1,14 +1,14 @@
 /* mandelbrot.c/v3.2 - sampling half of the mandelbrot renderer for complexfractals.
-** by Pegasus Epsilon <pegasus@pimpninjas.org>
-** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
-**
-**  Changelog:
-**  3.0a1 -- first 3.0 version
-**  3.0a2 -- removed unneccessary "magnitude" variable
-**  3.0a3 -- removed unneccessary "tmp" variable in pixel2vector
-**  3.1   -- refactored to share an iterator with a julia renderer.
-**  3.2   -- moved pixel2vector and pixelsize to mapper.o
-*/
+ * by Pegasus Epsilon <pegasus@pimpninjas.org>
+ * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
+ *
+ *  Changelog:
+ *  3.0a1 -- first 3.0 version
+ *  3.0a2 -- removed unneccessary "magnitude" variable
+ *  3.0a3 -- removed unneccessary "tmp" variable in pixel2vector
+ *  3.1   -- refactored to share an iterator with a julia renderer.
+ *  3.2   -- moved pixel2vector and pixelsize to mapper.o
+ */
 
 #include <stdio.h>  	/* printf(), FILE, fopen(), fwrite(), fclose() */
 #include <stdlib.h> 	/* exit(), atoi(), atof() */

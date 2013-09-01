@@ -1,10 +1,10 @@
 /* mapper.c/v1.0 - pixelmapper for complexfractals
-** by Pegasus Epsilon <pegasus@pimpninjas.org>
-** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
-**
-**  Changelog:
-**  v1.0 -- pulled into seperate module
-*/
+ * by Pegasus Epsilon <pegasus@pimpninjas.org>
+ * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
+ *
+ *  Changelog:
+ *  v1.0 -- pulled into seperate module
+ */
 
 #include <math.h>
 #include "types.h"

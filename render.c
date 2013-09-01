@@ -1,16 +1,16 @@
 /* render.c/v3.0a3 - final RGB renderer for complexfractals.
-** by Pegasus Epsilon <pegasus@pimpninjas.org>
-** Distribute Unmodified -- http://pegasus.pimpninjas.org/license
-**
-**  CHANGELOG:
-**  3.0a1 -- first version with a separated sampler/renderer.
-**  3.0a2 -- fixed bug where "in-set" indicator was ignored.
-**  3.0a3 -- added logarithm command line options.
-**
-**  TODO:
-**  -- Add a way to specify the color for samples that are in-set.
-**  -- Put in-pipeline supersampling back.
-*/
+ * by Pegasus Epsilon <pegasus@pimpninjas.org>
+ * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
+ *
+ *  CHANGELOG:
+ *  3.0a1 -- first version with a separated sampler/renderer.
+ *  3.0a2 -- fixed bug where "in-set" indicator was ignored.
+ *  3.0a3 -- added logarithm command line options.
+ *
+ *  TODO:
+ *  -- Add a way to specify the color for samples that are in-set.
+ *  -- Put in-pipeline supersampling back.
+ */
 
 #define _POSIX_SOURCE 	/* fileno() */
 #include <stdio.h>    	/* printf(), puts(), FILE, fopen(), fwrite(), fclose(), fileno() */
