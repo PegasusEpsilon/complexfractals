@@ -14,6 +14,7 @@ mandelbrot.rgb
 mapper.o
 palette
 palette.bin
+palette.png
 pngify
 render
 resample
