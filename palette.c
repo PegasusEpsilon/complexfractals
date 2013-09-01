@@ -12,8 +12,10 @@
 #include <stdarg.h>	/* va_list, va_start(), vprintf(), va_end() */
 #ifdef _WIN32
 #	include <stdint.h>	/* uint8_t */
+#define PRIuSIZET "Iu"
 #else
 #	include <inttypes.h>	/* uint8_t */
+#define PRIuSIZET "zu"
 #endif
 #include <sys/types.h>	/* off_t */
 #include <string.h>	/* strcmp() */
@@ -139,7 +141,7 @@ int main (int argc, char **argv) {
 		}
 		for (i = 0; ' ' == line[i] || '\t' == line[i]; i++);	/* skip whitespace */
 		if ('#' == line[i] || '\n' == line[i]) continue;	/* skip comments */
-		if (sscanf(line+i, "LEN%zu", &gradient.length)) {
+		if (sscanf(line+i, "LEN%" PRIuSIZET, &gradient.length)) {
 			debug("gradient length: %llu\n", gradient.length);
 			continue;
 		} else if (sscanf(line+i, "RED%lf%lf", &x, &y)) {
