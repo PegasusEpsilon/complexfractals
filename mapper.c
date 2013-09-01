@@ -25,7 +25,7 @@ COMPLEX pixel2vector (
 	out.R = window->center.R
 		+ (in->X * size->R - window->radius.R) * cos(theta)
 		- (in->Y * size->I - window->radius.I) * sin(theta);
-	out.I = window->center.I
+	out.I = -window->center.I
 		+ (in->X * size->R - window->radius.R) * sin(theta)
 		+ (in->Y * size->I - window->radius.I) * cos(theta);
 
