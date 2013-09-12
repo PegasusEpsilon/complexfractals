@@ -7,9 +7,9 @@
  */
 
 #include <inttypes.h>	/* uint8_t, uint32_t */
-#include <stdio.h>	/* printf() */
-#include <stdlib.h>	/* exit() */
-#include <string.h>	/* strcmp() */
+#include <stdio.h>   	/* printf() */
+#include <stdlib.h>  	/* exit() */
+#include <string.h>  	/* strcmp() */
 
 #define CHANNELS 3
 #define RED 0

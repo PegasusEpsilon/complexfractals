@@ -7,19 +7,19 @@
  *  v4.1 - Added verbose flag, suppressed noisy debug info
  */
 
-#include <stdio.h>	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
-#include <stdlib.h>	/* exit(), realloc(), calloc(), free(), size_t */
-#include <stdarg.h>	/* va_list, va_start(), vprintf(), va_end() */
+#include <stdio.h>      	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
+#include <stdlib.h>     	/* exit(), realloc(), calloc(), free(), size_t */
+#include <stdarg.h>     	/* va_list, va_start(), vprintf(), va_end() */
 #ifdef _WIN32
-#	include <stdint.h>	/* uint8_t */
+#	include <stdint.h>  	/* uint8_t */
 #define PRIuSIZET "Iu"
 #else
 #	include <inttypes.h>	/* uint8_t */
 #define PRIuSIZET "zu"
 #endif
-#include <sys/types.h>	/* off_t */
-#include <string.h>	/* strcmp() */
-#include <math.h> 	/* cos(), fmod() */
+#include <sys/types.h>  	/* off_t */
+#include <string.h>     	/* strcmp() */
+#include <math.h>       	/* cos(), fmod() */
 #include "constants.h"
 
 #define CHANNELS 3
