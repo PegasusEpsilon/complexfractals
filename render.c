@@ -9,7 +9,6 @@
  *
  *  TODO:
  *  -- Add a way to specify the color for samples that are in-set.
- *  -- Put in-pipeline supersampling back.
  */
 
 #define _POSIX_SOURCE 	/* fileno() */

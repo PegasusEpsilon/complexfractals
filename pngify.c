@@ -1,10 +1,7 @@
 /* zlib-only PNG writer
  * by Pegasus Epsilon <pegasus@pimpninjas.org>
- * (C) 2012 Educational Use Only
+ * (C) 2012 Distribute Unmodified
  *
- * Note: The license above is not about closing the source, it's mainly
- * because this code really isn't fit for doing anything useful, other
- * than being educational, maybe.
  */
 
 #define _POSIX_C_SOURCE 200112L	/* fileno() */
