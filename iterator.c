@@ -15,8 +15,8 @@
 #define ESCAPE 16*16	/* */
 
 unsigned long long maxiter = 0;
-double renormalized(COMPLEX *, COMPLEX *, void *);
-double crosstrap(COMPLEX *, COMPLEX *, void *);
+double renormalized (COMPLEX *, COMPLEX *, void *);
+double crosstrap (COMPLEX *, COMPLEX *, void *);
 double (*iterate)(COMPLEX *const z, COMPLEX *const c, void *data) = &renormalized;
 
 int inset (const COMPLEX *const c) {

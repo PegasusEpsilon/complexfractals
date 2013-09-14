@@ -119,7 +119,7 @@ int main (int argc, char **argv) {
 
 	if (argc > 1 && !strcmp("-v", argv[1])) {
 		debug = &printf;
-		argc--; argv++;
+		argc--; argv[1] = argv[0]; argv++;
 	}
 
 	if (argc < 2) usage(argv[0]);
