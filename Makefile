@@ -59,7 +59,7 @@ RADIUS_I=$(shell echo "scale=40;$(RADIUS_R)*$(HEIGHT)/$(WIDTH)" | bc)
 
 CC=cc
 LIBS=
-CFLAGS=-Ofast -Werror -Wall -Wconversion -Wtraditional-conversion -pedantic -ansi -std=c99
+CFLAGS=-Ofast -Werror -Wall -Wconversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
 png:	mandelbrot.png julia.png palete.png
