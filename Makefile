@@ -62,7 +62,7 @@ LIBS=
 CFLAGS=-Ofast -Werror -Wall -Wconversion -pedantic -ansi -std=c99
 LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
-png:	mandelbrot.png julia.png palete.png
+png:	mandelbrot.png julia.png palette.png
 
 all:	mandelbrot julia palette render resample pngify
 
