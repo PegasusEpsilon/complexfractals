@@ -1,10 +1,11 @@
-/* palette.c/v4.1 - palette generator for complexfractals
+/* palette.c/v4.2 - palette generator for complexfractals
  * by Pegasus Epsilon <pegasus@pimpninjas.org>
  * Distribute Unmodified - http://pegasus.pimpninjas.org/license
  *
  *  Changelog:
  *  v4.0 - Decoupled channels
  *  v4.1 - Added verbose flag, suppressed noisy debug info
+ *  v4.2 - Rewrote some, added comments, verified that the RGB directive works
  */
 
 #include <stdio.h>      	/* perror(), puts(), printf(), fopen(), fgets(), feof(), sscanf(), fclose(), fwrite() */
