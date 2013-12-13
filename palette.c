@@ -151,7 +151,8 @@ void add_syncpoint (struct CHANNEL *points, double x, char *line, off_t *off) {
 	uint8_t c;
 	double y;
 	for (c = 0; c < CHANNELS; c++) {
-		sscanf(line + *off, "%lf%jn", &y, off);
+		line += *off;
+		sscanf(line, "%lf%jn", &y, off);
 		debug(",%f", y);
 		add_point(&(points[c]), x, y);
 	}
@@ -220,7 +221,7 @@ int main (int argc, char **argv) {
 		 * LINELEN bytes is more than we should ever need
 		 */
 		char line[LINELEN];
-		/* o = character offset in current line
+		/* off = character offset in current line
 		 * used only in RGB directive
 		 */
 		off_t off = 0;
@@ -262,9 +263,7 @@ int main (int argc, char **argv) {
 			debug("read BLU control point %lf/%lf\n", x, y);
 			add_point(&points[BLU], x, y);
 		} else if (sscanf(line+i, "RGB%lf%jn", &x, &off)) {
-			/* not sure this directive actually works
-			 * should probably to test it
-			 */
+			/* Tested and fixed. Not sure it's the best way, though. */
 			debug("read RGB control point %lf", x);
 			add_syncpoint(points, x, line+i, &off);
 			if (&printf == debug) putchar('\n');
