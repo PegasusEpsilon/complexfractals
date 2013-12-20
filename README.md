@@ -5,9 +5,9 @@ Render fractals based on complex number arithmetic, in C99.
 
 Output examples:
 
-Julia set: http://pegasusepsilon.minus.com/mNei5OeRbTx55
+Julia set: https://secure.flickr.com/photos/pegasusepsilon/sets/72157635276921082/
 
-Mandelbrot set: http://pegasusepsilon.minus.com/mbjMKPspCR
+Mandelbrot set: https://secure.flickr.com/photos/pegasusepsilon/sets/72157638597810636/
 
 Requires C99 for long long. No other reason. Can easily be switched to
 C89/C90 by just removing that extra long. You'll lose precision, though.
