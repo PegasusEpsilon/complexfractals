@@ -64,7 +64,7 @@ LINK=$(CC) $(CFLAGS) $(LIBS) $^ -o $@
 
 png:	mandelbrot.png julia.png palette.png
 
-all:	mandelbrot julia palette render resample pngify
+all:	mandelbrot julia palette render tiler resample pngify
 
 examples:	palette.png mandelbrot.png julia.png
 
