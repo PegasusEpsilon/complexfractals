@@ -20,11 +20,13 @@ typedef struct {
 	uint8_t c[CHANNELS];
 } RGB24;
 
+__attribute__((noreturn))
 void usage (char *myself) {
 	printf("Usage: %s [-v] infile width factor outfile\n", myself);
 	exit(0);
 }
 
+__attribute__((noreturn))
 void fail (const char *msg) {	/* report function failures */
 	perror(msg);
 	exit(1);

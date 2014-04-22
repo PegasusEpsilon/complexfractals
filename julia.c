@@ -15,6 +15,7 @@
 #include "mapper.h"
 #include "constants.h"
 
+__attribute__((noreturn))
 void usage (const char *const myself) {
 	printf("Usage: %s width height centerX centerY radiusX radiusY seedReal seedImaginary angle outfile\n", myself);
 	exit(1);

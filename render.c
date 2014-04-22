@@ -29,6 +29,7 @@ typedef struct {
 	char *map;
 } palette;
 
+__attribute__((noreturn))
 void usage(const char *myself) {
 	printf("Usage: %s [OPTION] samplefile palfile shift divider outfile\n\n", myself);
 	puts("\t-l\tapply the natural logarithm to each sample before mapping");
@@ -39,6 +40,7 @@ void usage(const char *myself) {
 	exit(1);
 }
 
+__attribute__((noreturn))
 void fail (const char *msg) {   /* report function failures */
 	perror(msg);
 	exit(1);

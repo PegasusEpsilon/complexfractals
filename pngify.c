@@ -49,16 +49,19 @@ typedef struct {
 	PNG_chunk header;
 } __attribute__((packed)) IEND;
 
+__attribute__((noreturn))
 void usage (const char *myself) {
 	printf("Usage: %s infile width height outfile\n", myself);
 	exit(1);
 }
 
+__attribute__((noreturn))
 void fail (const char *msg) {	/* report function failures */
 	perror(msg);
 	exit(1);
 }
 
+__attribute__((noreturn))
 void die (const char *fmt, ...) {       /* report errors */
 	va_list args;
 	va_start(args, fmt);
@@ -116,8 +119,11 @@ int main (int argc, char **argv) {
 	/* process width and height arguments */
 	ihdr.width = htonl((uint32_t)(scanline = (size_t)atol(argv[2])));
 	scanline *= 3;
+	if (scanline > Z_CHUNK)
+		die("Encoding images wider than %d pixels is not implemented", Z_CHUNK / 3);
 	ihdr.height = htonl((uint32_t)atol(argv[3]));
 	debug("writing %s, %sx%s...", argv[4], argv[2], argv[3]);
+	fflush(stdout);
 
 	/* finish building the IHDR */
 	ihdr.bit_depth = 8;	/* 24bpp */
@@ -172,9 +178,9 @@ int main (int argc, char **argv) {
 				/* FOUR TABS */
 				crc = crc32(crc, output, have);
 				if (1 != fwrite(output, have, (size_t)1, ofile)) fail(argv[4]);
+				fflush(ofile);
 			}
 			written += have;
-			fflush(stdout);
 		} while (!stream.avail_out);
 	} while (!feof(ifile));
 	fclose(ifile);
@@ -196,6 +202,8 @@ int main (int argc, char **argv) {
 	fwrite_chunk(&iend, ofile);
 
 	fclose(ofile);
+
+	debug("done.\n");
 
 	return 0;
 }
