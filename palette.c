@@ -13,10 +13,10 @@
 #include <stdarg.h>     	/* va_list, va_start(), vprintf(), va_end() */
 #ifdef _WIN32
 #	include <stdint.h>  	/* uint8_t */
-#define PRIuSIZET "Iu"
+#	define PRIuSIZET "Iu"
 #else
 #	include <inttypes.h>	/* uint8_t */
-#define PRIuSIZET "zu"
+#	define PRIuSIZET "zu"
 #endif
 #include <sys/types.h>  	/* off_t */
 #include <string.h>     	/* strcmp() */
@@ -58,12 +58,14 @@ int nothing (const char *f, ...) { return 0; }
 int (*debug)(const char *f, ...) = &nothing;
 
 /* report function failures */
+__attribute__((noreturn))
 void fail (const char *msg) {
 	perror(msg);
 	exit(1);
 }
 
 /* report errors */
+__attribute__((noreturn))
 void die (const char *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
@@ -125,6 +127,7 @@ struct GRADIENT *generate_palette (const struct CHANNEL *channels, struct GRADIE
 	return gradient;
 }
 
+__attribute__((noreturn))
 void usage (const char *myself) {
 	printf("Usage: %s infile outfile\n\n", myself);
 	puts("\t-v\tshow debug output");
