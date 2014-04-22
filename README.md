@@ -47,3 +47,5 @@ sample output from everything.
 
 TODO:
 * add method to specify render color for in-set samples
+* stop the tiler from crashing with a write error when the output directory
+  doesn't exist
