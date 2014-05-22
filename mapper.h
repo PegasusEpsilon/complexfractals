@@ -10,7 +10,7 @@
 
 COMPLEX pixelsize (const PIXEL *const, const REGION *const);
 
-COMPLEX pixel2vector (
+extern COMPLEX (*pixel2vector) (
 	const PIXEL *const, const COMPLEX *const,
 	const REGION *const, const double
 );
