@@ -1,8 +1,10 @@
-/* mapper.c/v1.0 - pixelmapper for complexfractals
+/* mapper.c/v1.1 - pixelmapper for complexfractals
  * by Pegasus Epsilon <pegasus@pimpninjas.org>
  * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
  *
  *  Changelog:
+ *  v1.1 -- added thetaless pixel2vector and wrapper to choose between
+ *          thetaless or thetaful versions.
  *  v1.0 -- pulled into seperate module
  */
 
