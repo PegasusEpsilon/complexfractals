@@ -1,10 +1,11 @@
-/* iterator.c/v0.2 - generic iterator for complexfractals
+/* iterator.c/v0.3 - generic iterator for complexfractals
  * by Pegasus Epsilon <pegasus@pimpninjas.org>
  * Distribute Unmodified -- http://pegasus.pimpninjas.org/license
  *
  *  Changelog:
  *  0.1 -- First version that works for both mandelbrot and julia.
  *  0.2 -- Rewrote renormalization formula, reduced execution time 56%.
+ *  0.3 -- Removed apparently vestigial "last" variable.
  */
 #include <math.h>   	/* log(), log2(), sin(), cos(), sqrt() */
 #include <stdlib.h> 	/* atof() */
@@ -58,7 +59,7 @@ TRAP trapcheck (int *argc, char ***argv) {
 
 /* iterator for the cross trap */
 double crosstrap (COMPLEX *const z, COMPLEX *const c, void *data) {
-	unsigned long long i, deadline, last;
+	unsigned long long i, deadline;
 	double d = (double)((unsigned long long)-1);
 	COMPLEX z2, oz;
 	TRAP *trap;
@@ -67,15 +68,14 @@ double crosstrap (COMPLEX *const z, COMPLEX *const c, void *data) {
 
 	for (
 		i = 0, (double)(deadline = 1),
-		last = (unsigned long long)-1, /* maximum possible iterations */
 		oz.R = oz.I = 100; /* far outside the escape radius */
-		i != last; i++
+		i != (unsigned long long)-1; i++
 	) {
 		z2.R = z->R * z->R;
 		z2.I = z->I * z->I;
 
 		/* if point escaped, break out */
-		if ((unsigned long long)-1 == last && z2.R + z2.I > ESCAPE) break;
+		if (z2.R + z2.I > ESCAPE) break;
 
 		z->I = 2 * z->R * z->I + c->I;
 		z->R = z2.R - z2.I + c->R;
@@ -100,20 +100,19 @@ double crosstrap (COMPLEX *const z, COMPLEX *const c, void *data) {
 /* iterator for renormalized iteration count */
 double renormalized (COMPLEX *const z, COMPLEX *const c, void *data) {
 	/* returns -1 when in set, renormalized escape time otherwise */
-	unsigned long long i, last, deadline;
+	unsigned long long i, deadline;
 	COMPLEX z2, oz;
 
 	for (
 		i = 0, (double)(deadline = 1),
-		last = (unsigned long long)-1, /* maximum possible iterations */
 		oz.R = oz.I = 100; /* far outside the escape radius */
-		i != last; i++
+		i != (unsigned long long)-1; i++
 	) {
 		z2.R = z->R * z->R;
 		z2.I = z->I * z->I;
 
 		/* if point escaped, break out */
-		if ((unsigned long long)-1 == last && z2.R + z2.I > ESCAPE) break;
+		if (z2.R + z2.I > ESCAPE) break;
 
 		z->I = 2 * z->R * z->I + c->I;
 		z->R = z2.R - z2.I + c->R;
