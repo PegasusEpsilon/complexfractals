@@ -67,7 +67,7 @@ double crosstrap (COMPLEX *const z, COMPLEX *const c, void *data) {
 	trap = (TRAP *)data;
 
 	for (
-		i = 0, (double)(deadline = 1),
+		i = 0, deadline = 1,
 		oz.R = oz.I = 100; /* far outside the escape radius */
 		i != (unsigned long long)-1; i++
 	) {
@@ -104,7 +104,7 @@ double renormalized (COMPLEX *const z, COMPLEX *const c, void *data) {
 	COMPLEX z2, oz;
 
 	for (
-		i = 0, (double)(deadline = 1),
+		i = 0, deadline = 1,
 		oz.R = oz.I = 100; /* far outside the escape radius */
 		i != (unsigned long long)-1; i++
 	) {
